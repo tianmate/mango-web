@@ -25,6 +25,7 @@ const apis = {
     editMenu: p => postObj('/system/menu/update', p),
     addMenu: p => postObj('/system/menu/add', p),
     getMenuByUser: p => postObj('/system/menu/getMenuByUser', p),
+    tree: p => postObj('/system/menu/tree', p),
 
     //公众号接口
    // 关键字
