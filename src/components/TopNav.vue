@@ -1,12 +1,13 @@
 <template>
   <div class="header-wrap">
+    <div class="breadcrumb">
+    <el-breadcrumb separator-class="el-icon-arrow-right">
+      <el-breadcrumb-item>
+      </el-breadcrumb-item>
+    </el-breadcrumb>
+    </div>
     <button class="button-img">
-      <img
-        class="show-img"
-        :src="collapsed ? imgShow : imgHidden"
-        @click="toggle(collapsed)"
-        alt=""
-      />
+
     </button>
     <el-button style="height: 70%;" type="primary" size="mini" @click="quit">退出</el-button>
   </div>
@@ -22,6 +23,28 @@ export default {
       imgShow: require("../assets/img/show.png"),
       imgHidden: require("../assets/img/sq.png"),
     };
+  },
+  computed:{
+    matchedArr(){
+      let temp = [],temps = [];
+      this.$route.matched.filter((item,index,self) => {
+        // if(item.meta.title){
+        //     const title = item.meta.title;
+        //     temp.push(title);
+        // }
+        console.log(item)
+        if(item.name){
+          const name = item.name;
+          temp.push(name);
+        }
+      });
+      temp.filter((item,index,self) => {
+        if(!temps.includes(item)){
+          temps.push(item);
+        }
+      })
+      return temps;
+    }
   },
   methods: {
     // 切换显示
@@ -55,12 +78,7 @@ export default {
   cursor: pointer;
 }
 
-.show-img {
-  width: 26px;
-  height: 26px;
-}
-
-.show-img:active {
-  border: none;
+.breadcrumb{
+  margin: 5px 20px;
 }
 </style>

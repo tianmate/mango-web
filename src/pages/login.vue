@@ -16,14 +16,26 @@
             v-model="username"
             clearable>
         </el-input>
+
         <el-input
             class="login-item"
             placeholder="请输入密码"
             prefix-icon="el-icon-lock"
             v-model="password" show-password></el-input>
 
+        <el-input
+            class="code-input"
+            type="text"
+            v-model="inputCode"
+            auto-complete="off"
+            placeholder="图形验证码"
+            @keyup.enter.native="submitForm()">
+         </el-input>
 
-        <el-button class="btn-login" v-on:click="login()" type="primary">登录</el-button>
+        <div class="login-code">
+        <img  :src="code" class="login-code-img"/>
+        </div>
+          <el-button class="btn-login" v-on:click="login()" type="primary">登录</el-button>
 
       </div>
     </div>
@@ -46,20 +58,26 @@ export default {
     return {
       username: '',
       password: '',
+      code: '',
+      uuid: '',
+      inputCode:'',
       info: null
     }
 
   },
 
+  created() {
+    this.createImageCode()
+  },
   methods: {
     login: function () {
-      console.log(this)
-      console.log(this.$store.getters.getCityFn);
 
       const that = this;
       capis.login({
         username: that.username,
-        password: that.password
+        password: that.password,
+        code: that.inputCode,
+        uuid: that.uuid
       }).then(res => {
         if (res.code === 200) {
           that.$message.success("登录成功");
@@ -72,7 +90,18 @@ export default {
         } else {
           that.$message.error("账号或者密码不正确！");
         }
+      }).catch(reason => {
+       // that.$message.error("登录有误");
+        // console.log(reason)
       });
+    },
+    createImageCode(){
+      const that = this;
+      capis.createImageCode({}).then(res =>{
+        console.log(res.img)
+        this.code=res.img
+        this.uuid=res.uuid
+      })
     }
   }
 
@@ -108,17 +137,28 @@ export default {
 /*登录框*/
 .login-item{
   width: 80%;
-  margin: 20px 10px;
+  margin: 20px 23px;
 }
 
 /*登录按钮*/
 .btn-login{
   width: 80%;
-  margin: 10px 10px;
+  margin: 10px 23px;
   border-radius: 5px;
 }
+/*验证码输入框*/
+.code-input{
+  width: 30%;
+  margin: 10px 23px;
+}
+/*图片验证码*/
+.login-code {
+  width: 25%;
+  height: 30px;
+  float: right;
+  margin: 10px 20px;
 
-
+}
 /**
 版权信息
  */

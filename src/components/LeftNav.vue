@@ -32,37 +32,7 @@
 
         </tmeplate>
       </el-menu>
-<!--        <el-menu class="el-menu-vertical-demo"-->
-<!--                 :default-active="$route.path"-->
-<!--                 :collapse="collapsed"-->
-<!--                 background-color="#334157"-->
-<!--                 collapse-transition text-color="#fff"-->
-<!--                 active-text-color="#ffd04b"-->
-<!--                 router>-->
-<!--            <template v-for="menu in menus">-->
-<!--                <el-submenu :key="menu.id"-->
-<!--                            v-show="menu.visible"-->
-<!--                            :index="menu.name">-->
-<!--                    <template slot="title">-->
-<!--                        <i :class="menu.icon" style="font-size: 24px;margin-right: 0;padding: 5px;"></i>-->
-<!--                        <span>{{ menu.name }}</span>-->
-<!--                    </template>-->
-<!--                    <el-menu-item-group>-->
-<!--                        <el-menu-item v-for="menuItem in menu.child"-->
-<!--                                      :index="menuItem.path"-->
-<!--                                      :key="menuItem.id">-->
-<!--                            <i :class="menuItem.icon" style="font-size: 24px;margin-right: 0;padding: 5px;"></i>-->
-<!--                            <span>{{ menuItem.name }}</span>-->
-<!--                        </el-menu-item>-->
-<!--                    </el-menu-item-group>-->
-<!--                </el-submenu>-->
 
-<!--                <el-menu-item :key="menu.id" :index="menu.path" v-show="!menu.hidden">-->
-<!--                    <i :class="menu.icon" style="font-size: 24px;margin-right: 0;padding: 5px;"></i>-->
-<!--                    <span slot="title" class="menu-text">{{ menu.name }}</span>-->
-<!--                </el-menu-item>-->
-<!--            </template>-->
-<!--        </el-menu>-->
     </div>
 </template>
 
@@ -76,14 +46,7 @@
             };
         },
         created() {
-            // 监听头部发出的 toggle 事件
-            // this.$EventBus.$on('toggle', value => {
-            //     const _this = this;
-            //     this.collapsed = value;
-            //     setTimeout(() => {
-            //         _this.imgShow = !_this.imgShow;
-            //     }, 350);
-            // });
+
           //获取当前角色的菜单列表
           capis.tree({
             id: Cookies.get('userInfo')

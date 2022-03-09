@@ -3,6 +3,7 @@ import { get, post, postObj } from "./http";
 const apis = {
     //公共接口
     login: p => postObj('/system/login/common', p), // 登录
+    createImageCode: p => postObj('/system/login/createImageCode', p), // 验证码
     //系统接口
     //用户
     getUser: p =>postObj('/system/account/getList', p),
