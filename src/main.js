@@ -2,7 +2,7 @@
 import Vue from 'vue'
 import App from './App.vue'
 //vuex
-import store from './store/store';
+import store from './store';
 //重置样式
 import './assets/css/reset.css'
 import './assets/css/base.css'
@@ -12,7 +12,9 @@ import router from './router'
 //axios
 import axios from 'axios'
 Vue.prototype.$http = axios;
-
+// 自定义表格工具组件
+import RightToolbar from "@/components/RightToolbar"
+import { parseTime, resetForm, addDateRange, selectDictLabel, selectDictLabels, handleTree } from "@/utils/ruoyi";
 // ElementUI
 import ElementUI from 'element-ui';
 import 'element-ui/lib/theme-chalk/index.css';
@@ -27,10 +29,15 @@ window.Cookies = Cookies;
 import apis from "./network/api";
 window.capis = apis;
 
-
-
+// 分页组件
+import Pagination from "@/components/Pagination";
+Vue.component('RightToolbar', RightToolbar)
 Vue.config.productionTip = false
+// 全局组件挂载
+Vue.component('Pagination', Pagination)
 
+
+Vue.prototype.resetForm = resetForm
 new Vue({
   router,
   store,

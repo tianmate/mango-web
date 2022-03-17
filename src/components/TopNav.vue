@@ -9,6 +9,7 @@
     <button class="button-img">
 
     </button>
+
     <el-button style="height: 70%;" type="primary" size="mini" @click="quit">退出</el-button>
   </div>
 </template>

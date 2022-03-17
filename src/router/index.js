@@ -2,7 +2,6 @@
 import VueRouter from 'vue-router'
 
 import Vue from "vue";
-
 Vue.use(VueRouter)
 
 const routes = [
@@ -46,14 +45,34 @@ const routes = [
             },
             {
                 path: '/pages/gzh/nightJoin',
-                name: '菜单管理',
+                name: '晚安计划管理',
                 component: () => import('../pages/gzh/nightJoin')
             },
             {
                 path: '/pages/gzh/swag',
-                name: '菜单管理',
-                component: () => import('../pages/gzh/swag')
-            }
+                name: '交换管理',
+                component: () => import('../pages/work/index')
+            },
+            {
+                path: '/pages/createCode',
+                name: '代码生成',
+                component: () => import('../pages/gen/index')
+            },
+            {
+                path: '/tool/gen-edit',
+                // component: Layout,
+                // hidden: true,
+                // permissions: ['tool:gen:edit'],
+                children: [
+                    {
+                        path: '/index/:tableId(\\d+)',
+                        component: () => import('../pages/gen/index'),
+                        name: 'GenEdit',
+                        // meta: { title: '修改生成配置', activeMenu: '/tool/gen' }
+                    }
+                ]
+            },
+
         ]
     },
 
@@ -62,7 +81,11 @@ const routes = [
 
 
 const router = new VueRouter({
+    mode: 'history',
+    scrollBehavior: () => ({ y: 0 }),
     routes
 });
+
+
 
 export default router

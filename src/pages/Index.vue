@@ -34,7 +34,9 @@
 
 import SideBar from '../components/LeftNav';
 import TopNav from '../components/TopNav';
+import { getUsers } from "@/api/user";
 
+const router = require("@/router");
 export default {
   name:"Index",
   data() {
@@ -43,9 +45,17 @@ export default {
     }
 
   },
+  created() {
+    getUsers({
+      "id":2
+    }).then(res=>{
+      console.log(res.datas)
+    })
+    // router.addRoutes(asyncRoutes);
+  },
   components: {
     SideBar,
-    TopNav
+    TopNav,
   },
 
 

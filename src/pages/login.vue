@@ -5,7 +5,7 @@
     <div class="login-box">
 
       <div class="title">
-        <h2>芒果-运营后台管理端</h2>
+        <h2>芒果管理系统</h2>
       </div>
 
       <div class="form-item">
@@ -56,8 +56,8 @@ export default {
 
   data() {
     return {
-      username: '',
-      password: '',
+      username: 'admin',
+      password: '123456',
       code: '',
       uuid: '',
       inputCode:'',
