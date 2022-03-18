@@ -5,6 +5,7 @@
         <basic-info-form ref="basicInfo" :info="info" />
       </el-tab-pane>
       <el-tab-pane label="字段信息" name="columnInfo">
+
         <el-table ref="dragTable" :data="columns" row-key="columnId" :max-height="tableHeight">
           <el-table-column label="序号" type="index" min-width="5%" class-name="allowDrag" />
           <el-table-column
@@ -12,18 +13,36 @@
             prop="columnName"
             min-width="10%"
             :show-overflow-tooltip="true"
-          />
+          >
+            <template slot-scope="scope">
+              <el-input v-model="scope.row.columnName"></el-input>
+            </template>
+          </el-table-column>
           <el-table-column label="字段描述" min-width="10%">
             <template slot-scope="scope">
               <el-input v-model="scope.row.columnComment"></el-input>
             </template>
           </el-table-column>
+
           <el-table-column
             label="物理类型"
-            prop="columnType"
+
             min-width="10%"
             :show-overflow-tooltip="true"
-          />
+          >
+            <template slot-scope="scope">
+              <el-select v-model="scope.row.columnType">
+                <el-option label="tinyint(4)" value="tinyint(4)" />
+                <el-option label="bigint(20)" value="bigint(20)" />
+                <el-option label="int" value="int" />
+                <el-option label="varchar(64)" value="varchar(64)" />
+                <el-option label="varchar(255)" value="varchar(255)" />
+                <el-option label="char(1)" value="char(1)" />
+                <el-option label="datetime" value="datetime" />
+                <el-option label="longblob" value="longblob" />
+              </el-select>
+            </template>
+          </el-table-column>
           <el-table-column label="Java类型" min-width="11%">
             <template slot-scope="scope">
               <el-select v-model="scope.row.javaType">
@@ -113,6 +132,7 @@
           </el-table-column>
         </el-table>
       </el-tab-pane>
+      <el-button type="primary" @click="add()">新增</el-button>
       <el-tab-pane label="生成信息" name="genInfo">
         <gen-info-form ref="genInfo" :info="info" :tables="tables" :menus="menus"/>
       </el-tab-pane>
@@ -159,27 +179,95 @@ export default {
     };
   },
   created() {
-    const tableId = this.$route.params && this.$route.params.tableId;
-    console.log(tableId+1111111)
+    const tableId = this.$route.query.id;
     if (tableId) {
       // 获取表详细信息
       getGenTable(tableId).then(res => {
-
-        this.columns = res.data.rows;
-        this.info = res.data.info;
-        this.tables = res.data.tables;
+        console.log(res.datas.rows)
+        this.columns = res.datas.rows;
+        this.info = res.datas.info;
+        this.tables = res.datas.tables;
       });
       /** 查询字典下拉列表 */
       getDictOptionselect().then(response => {
-        this.dictOptions = response.data;
+        this.dictOptions = response.datas;
       });
       /** 查询菜单下拉列表 */
       getMenuTreeselect().then(response => {
-        this.menus = this.handleTree(response.data, "menuId");
+        this.menus = this.handleTree(response.datas, "menuId");
       });
     }
   },
   methods: {
+    //新增
+    add() {
+      if (this.tables[0]==null){
+        this.columns.push({
+          "columnId": '',
+          "tableId": '',
+          "columnName": "",
+          "columnComment": "",
+          "columnType": "varchar(64)",
+          "javaType": "String",
+          "javaField": "",
+          "isPk": "0",
+          "isIncrement": "0",
+          "isRequired": null,
+          "isInsert": "1",
+          "isEdit": "1",
+          "isList": "1",
+          "isQuery": null,
+          "queryType": "EQ",
+          "htmlType": "input",
+          "dictType": "",
+          "sort":  '',
+          "required": false,
+          "list": true,
+          "pk": false,
+          "insert": true,
+          "edit": true,
+          "query": false,
+          "superColumn": true,
+          "increment": false,
+          "capJavaField": "",
+          "usableColumn": true
+        })
+      }else {
+        console.log(this.tables[0].tableId)
+        this.columns.push({
+          "columnId": '',
+          "tableId": this.tables[0].tableId,
+          "columnName": "",
+          "columnComment": "",
+          "columnType": "varchar(64)",
+          "javaType": "String",
+          "javaField": "",
+          "isPk": "0",
+          "isIncrement": "0",
+          "isRequired": null,
+          "isInsert": "1",
+          "isEdit": "1",
+          "isList": "1",
+          "isQuery": null,
+          "queryType": "EQ",
+          "htmlType": "input",
+          "dictType": "",
+          "sort":  this.columns[this.columns.length-1].sort+1,
+          "required": false,
+          "list": true,
+          "pk": false,
+          "insert": true,
+          "edit": true,
+          "query": false,
+          "superColumn": true,
+          "increment": false,
+          "capJavaField": "",
+          "usableColumn": true
+        })
+      }
+
+      console.log(this.columns)
+    },
     /** 提交按钮 */
     submitForm() {
       const basicForm = this.$refs.basicInfo.$refs.basicInfoForm;

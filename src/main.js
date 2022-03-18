@@ -9,11 +9,13 @@ import './assets/css/base.css'
 import './assets/css/common.css'
 //路由
 import router from './router'
+
+import './permission' // permission control
 //axios
 import axios from 'axios'
 Vue.prototype.$http = axios;
 // 自定义表格工具组件
-import RightToolbar from "@/components/RightToolbar"
+import RightToolbar from "./components/RightToolbar"
 import { parseTime, resetForm, addDateRange, selectDictLabel, selectDictLabels, handleTree } from "@/utils/ruoyi";
 // ElementUI
 import ElementUI from 'element-ui';

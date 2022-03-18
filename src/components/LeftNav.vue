@@ -1,7 +1,7 @@
 <!-- 侧边栏 -->
 <template>
     <div >
-        <div class="logo-box" v-show="imgShow" @click="$router.replace({ path: '/dashboard' })">
+        <div class="logo-box" v-show="imgShow" >
             <img class="logo-img" src="../assets/img/spring-logo.svg" alt="">
         </div>
 

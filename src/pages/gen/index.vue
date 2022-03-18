@@ -43,7 +43,7 @@
           size="mini"
           @click="handleGenTable"
 
-        >生成</el-button>
+        >创建</el-button>
       </el-col>
       <el-col :span="1.5">
         <el-button
@@ -52,7 +52,6 @@
           icon="el-icon-upload"
           size="mini"
           @click="openImportTable"
-
         >导入</el-button>
       </el-col>
       <el-col :span="1.5">
@@ -77,8 +76,14 @@
 
         >删除</el-button>
       </el-col>
-      <right-toolbar :showSearch.sync="showSearch" @queryTable="getList"></right-toolbar>
+
+
+<!--      <right-toolbar :showSearch.sync="showSearch" @queryTable="getList"></right-toolbar>-->
+
+
     </el-row>
+
+
 
     <el-table v-loading="loading" :data="tableList" @selection-change="handleSelectionChange">
       <el-table-column type="selection" align="center" width="55"></el-table-column>
@@ -133,20 +138,27 @@
             @click="handleDelete(scope.row)"
 
           >删除</el-button>
-          <el-button
-            type="text"
-            size="small"
-            icon="el-icon-refresh"
-            @click="handleSynchDb(scope.row)"
+<!--          <el-button-->
+<!--            type="text"-->
+<!--            size="small"-->
+<!--            icon="el-icon-refresh"-->
+<!--            @click="handleSynchDb(scope.row)"-->
 
-          >同步</el-button>
+<!--          >同步</el-button>-->
           <el-button
             type="text"
             size="small"
             icon="el-icon-download"
-            @click="handleGenTable(scope.row)"
+            @click="createDb(scope.row)"
 
-          >生成代码</el-button>
+          >生成数据库</el-button>
+          <el-button
+              type="text"
+              size="small"
+              icon="el-icon-download"
+              @click="createDbAndCode(scope.row)"
+
+          >生成数据库和代码</el-button>
         </template>
       </el-table-column>
     </el-table>
@@ -176,8 +188,7 @@
 </template>
 
 <script>
-import { listTable, previewTable, delTable, genCode, synchDb } from "@/api/tool/gen";
-import { parseTime, resetForm, addDateRange, selectDictLabel, selectDictLabels, handleTree } from "@/utils/ruoyi";
+import { listTable, previewTable, delTable, genCode, synchDb ,createDbAndCode} from "@/api/tool/gen";
 import importTable from "./importTable";
 import hljs from "highlight.js/lib/highlight";
 import "highlight.js/styles/github-gist.css";
@@ -257,20 +268,26 @@ export default {
       this.queryParams.pageNum = 1;
       this.getList();
     },
-    /** 生成代码操作 */
+    /** 新增 */
     handleGenTable(row) {
-      const tableNames = row.tableName || this.tableNames;
-      if (tableNames == "") {
-        this.$modal.msgError("请选择要生成的数据");
-        return;
-      }
-      if(row.genType === "1") {
-        genCode(row.tableName).then(response => {
-          this.$modal.msgSuccess("成功生成到自定义路径：" + row.genPath);
-        });
-      } else {
-        this.$download.zip("/tool/gen/batchGenCode?tables=" + tableNames, "ruoyi");
-      }
+
+      this.$router.push({
+        path: '/tool/editTable',
+
+      });
+
+      // const tableNames = row.tableName || this.tableNames;
+      // if (tableNames == "") {
+      //   this.$modal.msgError("请选择要生成的数据");
+      //   return;
+      // }
+      // if(row.genType === "1") {
+      //   genCode(row.tableName).then(response => {
+      //     this.$modal.msgSuccess("成功生成到自定义路径：" + row.genPath);
+      //   });
+      // } else {
+      //   this.$download.zip("/tool/gen/batchGenCode?tables=" + tableNames, "ruoyi");
+      // }
     },
     /** 同步数据库操作 */
     handleSynchDb(row) {
@@ -283,6 +300,7 @@ export default {
     },
     /** 打开导入表弹窗 */
     openImportTable() {
+      console.log(11)
       this.$refs.import.show();
     },
     /** 重置按钮操作 */
@@ -321,7 +339,12 @@ export default {
     handleEditTable(row) {
       const tableId = row.tableId || this.ids[0];
       console.log(tableId)
-      this.$router.push({ path: '/tool/gen-edit/index/' + tableId, query: { pageNum: this.queryParams.pageNum } });
+      this.$router.push({
+        path: '/tool/editTable',
+        query: {
+          id:tableId
+        }
+      });
     },
     /** 删除按钮操作 */
     handleDelete(row) {
@@ -332,7 +355,17 @@ export default {
         this.getList();
         this.$modal.msgSuccess("删除成功");
       }).catch(() => {});
+    },
+    //创建数据库和表
+    createDbAndCode(row){
+      createDbAndCode(row.tableId).then(response => {
+      });
+    },
+    //创建数据库
+    createDb(row){
+      console.log(row.tableId)
     }
-  }
+  },
+
 };
 </script>

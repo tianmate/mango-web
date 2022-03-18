@@ -59,18 +59,22 @@ const routes = [
                 component: () => import('../pages/gen/index')
             },
             {
-                path: '/tool/gen-edit',
+                path: '/tool/editTable',
                 // component: Layout,
                 // hidden: true,
                 // permissions: ['tool:gen:edit'],
-                children: [
-                    {
-                        path: '/index/:tableId(\\d+)',
-                        component: () => import('../pages/gen/index'),
-                        name: 'GenEdit',
-                        // meta: { title: '修改生成配置', activeMenu: '/tool/gen' }
-                    }
-                ]
+                name: 'GenEdit',
+                component: () => import('../pages/gen/editTable')
+
+            },
+            {
+                path: '/user/profile',
+                // component: Layout,
+                // hidden: true,
+                // permissions: ['tool:gen:edit'],
+                name: 'GenEdit',
+                component: () => import('../pages/user/profile/index')
+
             },
 
         ]

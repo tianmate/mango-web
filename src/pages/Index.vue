@@ -1,5 +1,6 @@
 <template>
   <div class="root">
+
 <!--  整个布局-->
   <el-container class="index-container">
 <!--    左侧菜单栏-->
