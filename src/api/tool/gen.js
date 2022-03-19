@@ -74,3 +74,11 @@ export function synchDb(tableName) {
     method: 'get'
   })
 }
+
+// 生成代码和数据库
+export function createDbAndCode(tableName) {
+  return request({
+    url: '/gen/table/createDbAndCode/' + tableName,
+    method: 'get'
+  })
+}
