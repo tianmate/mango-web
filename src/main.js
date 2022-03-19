@@ -2,7 +2,7 @@
 import Vue from 'vue'
 import App from './App.vue'
 //vuex
-import store from './store';
+import store from './store/test';
 //重置样式
 import './assets/css/reset.css'
 import './assets/css/base.css'

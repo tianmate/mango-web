@@ -9,6 +9,8 @@
         <el-breadcrumb-item>活动详情</el-breadcrumb-item>
 
     </el-breadcrumb>
+      <tags-view  />
+
     </div>
 
     <el-dropdown @command="handleCommand">
@@ -28,7 +30,7 @@
 
 <script>
 // import { removeToken } from "../utils/token";
-
+import tagsView from '../components/TagsView/index';
 export default {
   data() {
     return {
@@ -37,7 +39,9 @@ export default {
       imgHidden: require("../assets/img/sq.png"),
     };
   },
-
+  components: {
+    tagsView,
+  },
   computed:{
     matchedArr(){
       let temp = [],temps = [];

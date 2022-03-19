@@ -1,6 +1,6 @@
 <template>
   <div class="root">
-    <el-button type="primary" class="add-btn" @click="dialogFormVisible_add = true">增加菜单</el-button>
+    <el-button type="primary" class="add-btn" @click="dialogFormVisible_add = true" plain>增加菜单</el-button>
     <el-table
         :data="tableData"
         border

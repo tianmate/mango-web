@@ -1,25 +1,20 @@
-import Vue from 'vue';
-import Vuex from 'vuex';
+import Vue from 'vue'
+import Vuex from 'vuex'
 
-Vue.use(Vuex);
+import tagsView from './modules/tagsView'
 
-export default new Vuex.Store({
-    //数据
-    state: {
-        userInfo:{
-            id:null,
-            name:null
-        }
-    },
-    mutations: {
-        // 参数列表state指的是state数据
+import getters from './getters'
 
-    },
-    actions: {
-    },
-    modules: {
-        // state指的是state的数据
-        // name传递过来的数据
+Vue.use(Vuex)
 
-    }
+const store = new Vuex.Store({
+  modules: {
+    app,
+
+    tagsView
+
+  },
+  getters
 })
+
+export default store
