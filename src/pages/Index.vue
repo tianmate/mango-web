@@ -50,7 +50,7 @@ export default {
     getUsers({
       "id":2
     }).then(res=>{
-      console.log(res.datas)
+
     })
     // router.addRoutes(asyncRoutes);
   },

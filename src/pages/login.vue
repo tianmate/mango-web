@@ -68,11 +68,11 @@ export default {
 
   created() {
     this.createImageCode()
-      // 通过vuex的getters方法来获取state里面的数据
-      console.log(this.$store.state.city)
-    // 调用vuex的ations设置城市的值
-    this.$store.dispatch("setCityName", '北京');
-    console.log(this.$store.state.city)
+    //   // 通过vuex的getters方法来获取state里面的数据
+    //   console.log(this.$store.state.city)
+    // // 调用vuex的ations设置城市的值
+    // this.$store.dispatch("setCityName", '北京');
+    // console.log(this.$store.state.city)
   },
   methods: {
     login: function () {

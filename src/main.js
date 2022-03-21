@@ -2,7 +2,7 @@
 import Vue from 'vue'
 import App from './App.vue'
 //vuex
-import store from './store/test';
+import store from './store/index';
 //重置样式
 import './assets/css/reset.css'
 import './assets/css/base.css'
@@ -11,6 +11,10 @@ import './assets/css/common.css'
 import router from './router'
 
 import './permission' // permission control
+
+//定义插件
+import plugins from './plugins'
+Vue.use(plugins)
 //axios
 import axios from 'axios'
 Vue.prototype.$http = axios;
