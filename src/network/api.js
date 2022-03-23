@@ -3,7 +3,7 @@ import { get, post, postObj } from "./http";
 const apis = {
     //公共接口
     login: p => postObj('/system/login/common', p), // 登录
-    createImageCode: p => postObj('/system/login/createImageCode', p), // 验证码
+    createImageCode: p => get('/system/login/createImageCode', p), // 验证码
     //系统接口
     //用户
     getUser: p =>postObj('/system/account/getList', p),
@@ -27,6 +27,7 @@ const apis = {
     addMenu: p => postObj('/system/menu/add', p),
     getMenuByUser: p => postObj('/system/menu/getMenuByUser', p),
     tree: p => postObj('/system/menu/tree', p),
+    getMenuDatail: p=>postObj('/system/menu/getDetail' , p),
 
     //公众号接口
    // 关键字

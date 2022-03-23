@@ -2,24 +2,24 @@
 <template>
     <div >
         <div class="logo-box" v-show="imgShow" >
-            <img class="logo-img" src="../assets/img/spring-logo.svg" alt="">
+           <h>芒果管理系统</h>
         </div>
 
-      <el-menu router class="menu-list">
+      <el-menu router class="menu-list"  background-color="#334157" text-color="#ffffff">
 
         <tmeplate v-for="menu in menus" :key="menu.id" >
           <!--        多级菜单-->
           <el-submenu
 
-              v-if="menu.child!=null"
+              v-if="menu.children!=null"
               :index="menu.name">
-            <template slot="title" ><i :class="menu.icon"></i>
-              <span>{{menu.name}}</span>
+            <template slot="title" >
+              <i :class="menu.icon"></i><span>{{menu.name}}</span>
             </template>
 <!--            二级菜单项-->
             <el-menu-item-group >
-              <el-menu-item v-for="menuItem in menu.child" :key="menuItem.id" :index="menuItem.path" >
-                 <span>{{ menuItem.name }}</span>
+              <el-menu-item v-for="menuItem in menu.children" :key="menuItem.id" :index="menuItem.path" >
+                <i :class="menuItem.icon"></i><span>{{ menuItem.name }}</span>
               </el-menu-item>
             </el-menu-item-group>
           </el-submenu>
@@ -58,23 +58,21 @@
 </script>
 <style>
 
-  .menu-list{
-    margin-left: 25px;
-    background-color: #334157;
-  }
+  /*.menu-list{*/
+  /*  margin-left: 25px;*/
+  /*  background-color: #334157;*/
+  /*}*/
 
     .logo-box {
         height: 20px;
-        line-height: 40px;
-        background-color: #334157;
-        color: #9d9d9d;
-        font-size: 10px;
+        line-height: 20px;
+        background-color: rgb(51, 65, 87);
+        color: #ffffff;
+        font-size: 15px;
         text-align: center;
         padding: 20px 0px;
     }
 
-    .logo-img {
-        height: 30px;
-    }
+
 
 </style>

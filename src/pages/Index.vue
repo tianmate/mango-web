@@ -4,7 +4,7 @@
 <!--  整个布局-->
   <el-container class="index-container">
 <!--    左侧菜单栏-->
-    <el-aside class="aside">
+    <el-aside class="aside" width="200px">
       <side-bar></side-bar>
     </el-aside>
 
@@ -73,7 +73,7 @@ export default {
 
 .index-container {
   width: 100%;
-  height: 100%;
+  height: 100vh;
 }
 
 .aside {
@@ -81,12 +81,18 @@ export default {
   height: 100%;
   background-color: #334157;
   margin: 0px;
+  width: 200px;
 }
 
-.header,
+.header{
+  /*background-color: #f0f0f0;*/
+
+  box-shadow:  2px 2px 5px grey;
+}
 .main {
   padding: 0px;
   border-left: 2px solid #333;
+
 }
 .main {
   padding: 20px;

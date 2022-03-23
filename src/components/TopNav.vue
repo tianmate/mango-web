@@ -8,7 +8,7 @@
 
     <el-dropdown @command="handleCommand">
   <span class="el-dropdown-link">
-     <el-avatar icon="el-icon-user-solid"></el-avatar>
+     <el-avatar src="https://cube.elemecdn.com/0/88/03b0d39583f48206768a7534e55bcpng.png"></el-avatar>
   </span>
       <el-dropdown-menu slot="dropdown">
         <el-dropdown-item command="my">个人中心</el-dropdown-item>
@@ -94,7 +94,7 @@ export default {
 .header-wrap {
   display: flex;
   justify-content: space-between;
-  background-color: #334157;
+  /*background-color: #334157;*/
   align-items: center;
   padding-right: 20px;
 }

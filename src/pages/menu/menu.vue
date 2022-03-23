@@ -4,7 +4,10 @@
     <el-table
         :data="tableData"
         border
-        style="width: 100%">
+        style="width: 100%"
+        row-key="id"
+        :tree-props="{children: 'children'}"
+    >
       <el-table-column
           prop="id"
           label="id"
@@ -78,6 +81,17 @@
     <el-dialog title="增加菜单" :visible.sync="dialogFormVisible_add">
       <el-form :model="form_add">
 
+<!--        <el-form-item label="父级菜单">-->
+<!--          <el-select v-model="form.region" placeholder="请选择活动区域">-->
+<!--            <el-option >-->
+<!--              <el-tree id="tree-option" :data="data" :props="defaultProps" @node-click="handleNodeClick">-->
+
+<!--              </el-tree>-->
+<!--            </el-option>-->
+
+<!--          </el-select>-->
+<!--        </el-form-item>-->
+
         <el-form-item label="菜单名称" :label-width="formLabelWidth">
           <el-input v-model="form_add.name" autocomplete="off"></el-input>
         </el-form-item>
@@ -146,6 +160,41 @@ export default {
   data() {
     return {
       tableData: [],
+      data: [{
+        label: '一级 1',
+        children: [{
+          label: '二级 1-1',
+          children: [{
+            label: '三级 1-1-1'
+          }]
+        }]
+      }, {
+        label: '一级 2',
+        children: [{
+          label: '二级 2-1',
+          children: [{
+            label: '三级 2-1-1'
+          }]
+        }, {
+          label: '二级 2-2',
+          children: [{
+            label: '三级 2-2-1'
+          }]
+        }]
+      }, {
+        label: '一级 3',
+        children: [{
+          label: '二级 3-1',
+          children: [{
+            label: '三级 3-1-1'
+          }]
+        }, {
+          label: '二级 3-2',
+          children: [{
+            label: '三级 3-2-1'
+          }]
+        }]
+      }],
       dialogFormVisible_add: false,
       dialogFormVisible_edit: false,
       form_add: {
@@ -205,15 +254,15 @@ export default {
 
     edit_dialog(id) {
       this.dialogFormVisible_edit = true
-      capis.getMenu({
+      capis.getMenuDatail({
         id: id
       }).then(res => {
-        this.form.id=res.datas[0].id
-        this.form.name=res.datas[0].name
-        this.form.description=res.datas[0].description
-        this.form.path=res.datas[0].path
-        this.form.icon=res.datas[0].icon
-        this.form.order=res.datas[0].order
+        this.form.id=res.datas.id
+        this.form.name=res.datas.name
+        this.form.description=res.datas.description
+        this.form.path=res.datas.path
+        this.form.icon=res.datas.icon
+        this.form.order=res.datas.order
           }
       )
     },
@@ -240,7 +289,12 @@ export default {
 </script>
 
 <style scoped>
-.btn {
-  margin-bottom: 20px;
+.el-scrollbar .el-scrollbar__view .el-select-dropdown__item{
+  height: auto;
+  max-height: 274px;
+  padding: 0;
+  overflow: hidden;
+  overflow-y: auto;
 }
+
 </style>

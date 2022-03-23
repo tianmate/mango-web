@@ -17,4 +17,8 @@ export default {
 
 <style>
 @import "assets/css/reset.css";
+/*#app{*/
+/*  height: 100vh;*/
+/*  width: 100vh;*/
+/*}*/
 </style>
