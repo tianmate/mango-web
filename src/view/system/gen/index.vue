@@ -184,7 +184,27 @@
       </el-tabs>
     </el-dialog>
     <import-table ref="import" @ok="handleQuery" />
+
+
+    <!--  导入SQL-->
+    <el-dialog title="SQl语句" :visible.sync="dialogFormVisible">
+      <el-input
+          type="textarea"
+          :rows="20"
+          placeholder="请输入sql"
+          v-model="textarea">
+      </el-input>
+
+      <div slot="footer" class="dialog-footer">
+        <el-button @click="dialogFormVisible = false">取 消</el-button>
+        <el-button type="primary" @click="dialogFormVisible = false">确 定</el-button>
+      </div>
+    </el-dialog>
+
+
   </div>
+
+
 </template>
 
 <script>
@@ -205,6 +225,7 @@ export default {
 
   data() {
     return {
+      dialogFormVisible: false,
       // 遮罩层
       loading: true,
       // 唯一标识符
@@ -301,7 +322,7 @@ export default {
     /** 打开导入表弹窗 */
     openImportTable() {
       console.log(11)
-      this.$refs.import.show();
+     this.dialogFormVisible=true
     },
     /** 重置按钮操作 */
     resetQuery() {

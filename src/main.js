@@ -19,7 +19,7 @@ Vue.use(plugins)
 import axios from 'axios'
 Vue.prototype.$http = axios;
 // 自定义表格工具组件
-import RightToolbar from "./components/RightToolbar"
+import RightToolbar from "./layout/RightToolbar"
 import { parseTime, resetForm, addDateRange, selectDictLabel, selectDictLabels, handleTree } from "@/utils/ruoyi";
 // ElementUI
 import ElementUI from 'element-ui';
@@ -36,7 +36,7 @@ import apis from "./network/api";
 window.capis = apis;
 
 // 分页组件
-import Pagination from "@/components/Pagination";
+import Pagination from "@/layout/Pagination";
 Vue.component('RightToolbar', RightToolbar)
 Vue.config.productionTip = false
 // 全局组件挂载

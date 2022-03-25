@@ -103,7 +103,7 @@ export default {
           }).then(res => {
             if (res.code === 200) {
               that.$message.success("登录成功");
-              that.$router.push({path: "/pages/user"});
+              that.$router.replace({path: "/pages/user"});
               //保存到cookie
               Cookies.set('accessToken', res.datas.token);
               Cookies.set('userInfo', res.datas.userInfo.id);

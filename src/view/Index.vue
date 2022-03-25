@@ -33,8 +33,8 @@
 
 <script>
 
-import SideBar from '../components/LeftNav';
-import TopNav from '../components/TopNav';
+import SideBar from '../layout/LeftNav';
+import TopNav from '../layout/TopNav';
 import { getUsers } from "@/api/user";
 
 const router = require("@/router");
