@@ -7,3 +7,11 @@ export const getRouters = () => {
     method: 'get'
   })
 }
+
+// 获取菜单树
+export const tree = () => {
+  return request({
+    url: '/system/menu/tree',
+    method: 'post'
+  })
+}

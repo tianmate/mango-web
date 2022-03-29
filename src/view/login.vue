@@ -9,9 +9,9 @@
       <div class="title">芒果管理系统</div>
 
       <div class="inputs" >
-<!--        <label>EMAIL</label>-->
+
         <input type="text" name="email" v-model="username" class="username_input" placeholder="用户名" />
-<!--        <label>PASSWORD</label>-->
+
         <input type="password"  v-model="password" name="password" placeholder="密码" />
 
         <input type="password"  v-model="inputCode" name="password" class="code-input" placeholder="验证码" />
@@ -25,43 +25,6 @@
 
     </div>
 
-<!--    <div class="login-box">-->
-
-<!--      <div class="title">-->
-<!--        <h2>芒果管理系统</h2>-->
-<!--      </div>-->
-
-<!--      <div class="form-item">-->
-<!--        <el-input-->
-<!--            class="login-item"-->
-<!--            placeholder="请输入账号"-->
-<!--            prefix-icon="el-icon-user"-->
-<!--            v-model="username"-->
-<!--            clearable>-->
-<!--        </el-input>-->
-
-<!--        <el-input-->
-<!--            class="login-item"-->
-<!--            placeholder="请输入密码"-->
-<!--            prefix-icon="el-icon-lock"-->
-<!--            v-model="password" show-password></el-input>-->
-
-<!--        <el-input-->
-<!--            class="code-input"-->
-<!--            type="text"-->
-<!--            v-model="inputCode"-->
-<!--            auto-complete="off"-->
-<!--            placeholder="图形验证码"-->
-<!--            @keyup.enter.native="submitForm()">-->
-<!--         </el-input>-->
-
-<!--        <div class="login-code">-->
-<!--        <img  :src="code" class="login-code-img"/>-->
-<!--        </div>-->
-<!--          <el-button class="btn-login" v-on:click="login()" type="primary">登录</el-button>-->
-
-<!--      </div>-->
-<!--    </div>-->
 
     <div class="footer">
       <span>Copyright © 程序员田同学</span>
@@ -103,7 +66,7 @@ export default {
           }).then(res => {
             if (res.code === 200) {
               that.$message.success("登录成功");
-              that.$router.replace({path: "/pages/user"});
+              that.$router.replace({path: "/index"});
               //保存到cookie
               Cookies.set('accessToken', res.datas.token);
               Cookies.set('userInfo', res.datas.userInfo.id);

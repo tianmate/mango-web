@@ -37,6 +37,7 @@
 </template>
 
 <script>
+import { tree } from "@/api/menu";
     export default {
         data() {
             return {
@@ -47,21 +48,21 @@
         },
         created() {
 
+          tree({id: Cookies.get('userInfo')}).then(
+              response=>{
+                this.menus=response.datas
+              }
+          )
           //获取当前角色的菜单列表
-          capis.tree({
-            id: Cookies.get('userInfo')
-          }).then(res=>{
-            this.menus=res.datas
-          })
+          // capis.tree({
+          //   id: Cookies.get('userInfo')
+          // }).then(res=>{
+          //   this.menus=res.datas
+          // })
         },
     };
 </script>
 <style>
-
-  /*.menu-list{*/
-  /*  margin-left: 25px;*/
-  /*  background-color: #334157;*/
-  /*}*/
 
     .logo-box {
         height: 20px;

@@ -1,24 +1,22 @@
 <template>
-  <div class="root">
-
-<!--  整个布局-->
+  <!--  整个布局-->
   <el-container class="index-container">
-<!--    左侧菜单栏-->
+    <!--    左侧菜单栏-->
     <el-aside class="aside" width="200px">
       <side-bar></side-bar>
     </el-aside>
 
-  <!--  内容区-->
+    <!--  内容区-->
     <el-container class="main-container">
-  <!--   内容区顶部-->
+      <!--   内容区顶部-->
       <el-header class="header">
         <top-nav></top-nav>
       </el-header>
 
-  <!--  内容区中间部分-->
+      <!--  内容区中间部分-->
       <el-main class="main">
 
-  <!--   数据区-->
+        <!--   数据区-->
         <transition name="fade">
           <router-view ></router-view>
         </transition>
@@ -26,51 +24,22 @@
 
     </el-container>
   </el-container>
-
-
-    </div>
 </template>
 
 <script>
-
 import SideBar from '../layout/LeftNav';
 import TopNav from '../layout/TopNav';
-import { getUsers } from "@/api/user";
-
-const router = require("@/router");
 export default {
-  name:"Index",
-  data() {
-    return {
+name: "index",
 
-    }
-
-  },
-  created() {
-    getUsers({
-      "id":2
-    }).then(res=>{
-
-    })
-    // router.addRoutes(asyncRoutes);
-  },
   components: {
     SideBar,
     TopNav,
   },
-
-
-  methods: {
-
-    },
-
-
-  }
-
+}
 </script>
 
 <style scoped>
-
 .index-container {
   width: 100%;
   height: 100vh;

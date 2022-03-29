@@ -21,35 +21,7 @@ const apis = {
     getRoleMenu: p =>postObj('/system/role/getRoleMenu', p),
     addRoleMenu: p =>postObj('/system/role/assignMenu', p),
     removeRoleMenu: p =>postObj('/system/role/removeRoleMenu',p),
-    //菜单
-    getMenu: p => postObj('/system/menu/getList', p),
-    editMenu: p => postObj('/system/menu/update', p),
-    addMenu: p => postObj('/system/menu/add', p),
-    getMenuByUser: p => postObj('/system/menu/getMenuByUser', p),
-    tree: p => postObj('/system/menu/tree', p),
-    getMenuDatail: p=>postObj('/system/menu/getDetail' , p),
 
-    //公众号接口
-   // 关键字
-    getKeyword: p => postObj('/wechat/keyWord/getList', p),
-    editKeyword: p => postObj('/wechat/keyWord/update', p),
-    addKeyword: p => postObj('/wechat/keyWord/add', p),
-    // 活动计划
-    getPlan: p => postObj('/wechat/plan/getList', p),
-    editPlan: p => postObj('/wechat/plan/update', p),
-    addPlan: p => postObj('/wechat/plan/add', p),
-    //公众号用户管理
-    getPublicUser: p => postObj('/wechat/publicUser/getList', p),
-    editPublicUser: p => postObj('/wechat/publicUser/update', p),
-    addPublicUser: p => postObj('/wechat/publicUser/add', p),
-    //晚安计划管理
-    getNightJoin: p => postObj('/wechat/nightJoin/getList', p),
-    editNightJoin: p => postObj('/wechat/nightJoin/update', p),
-    addNightJoin: p => postObj('/wechat/nightJoin/add', p),
-    //交换管理
-    getSwag: p => postObj('/wechat/swag/getList', p),
-    editSwag: p => postObj('/wechat/swag/update', p),
-    addSwag: p => postObj('/wechat/swag/add', p),
 }
 
 export default apis;
