@@ -7,19 +7,19 @@
 
       <el-menu router class="menu-list"  background-color="#334157" text-color="#ffffff">
 
-        <tmeplate v-for="menu in menus" :key="menu.id" >
+        <tmeplate v-for="menu in menus" :key="menu.menuId" >
           <!--        多级菜单-->
           <el-submenu
 
               v-if="menu.children!=null"
-              :index="menu.name">
+              :index="menu.menuName">
             <template slot="title" >
-              <i :class="menu.icon"></i><span>{{menu.name}}</span>
+              <i :class="menu.icon"></i><span>{{menu.menuName}}</span>
             </template>
 <!--            二级菜单项-->
             <el-menu-item-group >
               <el-menu-item v-for="menuItem in menu.children" :key="menuItem.id" :index="menuItem.path" >
-                <i :class="menuItem.icon"></i><span>{{ menuItem.name }}</span>
+                <i :class="menuItem.icon"></i><span>{{ menuItem.menuName }}</span>
               </el-menu-item>
             </el-menu-item-group>
           </el-submenu>
