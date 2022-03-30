@@ -225,6 +225,8 @@ export default {
 
   data() {
     return {
+      //导入SQL文本框
+      textarea:'',
       dialogFormVisible: false,
       // 遮罩层
       loading: true,

@@ -2,7 +2,7 @@
 <template>
     <div >
         <div class="logo-box" v-show="imgShow" >
-           <h>芒果管理系统</h>
+           <h1>芒果管理系统</h1>
         </div>
 
       <el-menu router class="menu-list"  background-color="#334157" text-color="#ffffff">

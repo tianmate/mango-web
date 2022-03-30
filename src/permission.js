@@ -59,10 +59,16 @@ router.beforeEach((to, from, next) => {
         if (!getRouter) {//不加这个判断，路由会陷入死循环
             if (!getObjArr('router')) {
 
+                if (to.path === '/login') {
+                    next({ path: '/' })
+                    NProgress.done()
+                } else {
+                    routerGo(to, next)//执行路由跳转方法
+                }
                // getRouter = routers//后台拿到路由
                 //   saveObjArr('router', getRouter) //存储路由到localStorage
 
-                routerGo(to, next)//执行路由跳转方法
+
 
             } else {//从localStorage拿到了路由
                 getRouter = getObjArr('router')//拿到路由
@@ -114,9 +120,9 @@ function filterAsyncRouter(asyncRouterMap, lastRouter = false, type = false) { /
             }
         }
 
-        if (route.children && route.children.length) {
-            route.children = filterAsyncRouter(route.children)
-        }
+        // if (route.children && route.children.length) {
+        //     route.children = filterAsyncRouter(route.children)
+        // }
 
         if (route.children != null && route.children && route.children.length) {
             route.children = filterAsyncRouter(route.children, route, type)

@@ -72,7 +72,7 @@ export default {
     handleCommand(command) {
       if (command=='quit'){
         this.$message.success("退出成功！")
-        this.$router.push({ path: "/" });
+        this.$router.push({ path: "/login" });
       }else if (command=='my'){
         this.$router.push({ path: "/user/profile" });
       }
