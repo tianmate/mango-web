@@ -7,6 +7,8 @@ import store from './store/index';
 import './assets/css/reset.css'
 import './assets/css/base.css'
 import './assets/css/common.css'
+
+import '@/assets/css/mango.scss' // ruoyi css
 //路由
 import router from './router'
 

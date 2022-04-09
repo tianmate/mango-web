@@ -12,9 +12,25 @@
             </div>
             <ul class="list-group list-group-striped">
               <li class="list-group-item">
-                <svg-icon icon-class="user" />用户名称
-                <div class="pull-right">{{ user.userName }}</div>
+                用户名称
+                <div class="pull-right">{{ user.username }}</div>
               </li>
+
+              <li class="list-group-item">
+                用户昵称
+                <div class="pull-right">{{ user.nickName }}</div>
+              </li>
+
+              <li class="list-group-item">
+               手机号码
+                <div class="pull-right">{{ user.tel }}</div>
+              </li>
+
+              <li class="list-group-item" >
+                所属角色
+                <div class="pull-right" v-for="(item,index) in user.roles" :key="index">{{ item.name }}|</div>
+              </li>
+
 
             </ul>
           </div>
@@ -42,6 +58,8 @@
 <script>
 import userInfo from "./userInfo";
 import resetPwd from "./resetPwd";
+
+const {getUserProfile} = require("@/api/system/user");
 
 export default {
   name: "Profile",

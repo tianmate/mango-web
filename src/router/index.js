@@ -18,12 +18,12 @@ const routes = [
             {
                 path: 'index',
                 component: () => import('@/view/index'),
-                name: 'Index',
+                name: '首页',
                 meta: { title: '首页', icon: 'dashboard', affix: true }
             },
             {
                 path: '/user/profile',
-                name: 'Profile',
+                name: '个人中心',
                 component: () => import('../view/system/user/profile/index'),
                 meta: { title: '个人中心', icon: 'user', affix: true }
 

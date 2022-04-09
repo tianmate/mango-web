@@ -73,7 +73,7 @@ export function changeUserStatus(userId, status) {
 // 查询用户个人信息
 export function getUserProfile() {
   return request({
-    url: '/system/user/profile',
+    url: '/system/account/profile',
     method: 'get'
   })
 }
@@ -81,8 +81,8 @@ export function getUserProfile() {
 // 修改用户个人信息
 export function updateUserProfile(data) {
   return request({
-    url: '/system/user/profile',
-    method: 'put',
+    url: '/system/account/update',
+    method: 'post',
     data: data
   })
 }
@@ -94,8 +94,8 @@ export function updateUserPwd(oldPassword, newPassword) {
     newPassword
   }
   return request({
-    url: '/system/user/profile/updatePwd',
-    method: 'put',
+    url: '/system/account/updatePwd',
+    method: 'post',
     params: data
   })
 }
