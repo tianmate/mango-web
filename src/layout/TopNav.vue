@@ -8,7 +8,7 @@
 
     <el-dropdown @command="handleCommand">
   <span class="el-dropdown-link">
-     <el-avatar src="https://cube.elemecdn.com/0/88/03b0d39583f48206768a7534e55bcpng.png"></el-avatar>
+     <el-avatar >user</el-avatar>
   </span>
       <el-dropdown-menu slot="dropdown">
         <el-dropdown-item command="my">个人中心</el-dropdown-item>
@@ -38,7 +38,6 @@ export default {
   computed:{
     matchedArr(){
       let temp = [],temps = [];
-      console.log('***')
       this.$route.matched.filter((item,index,self) => {
         // if(item.meta.title){
         //     const title = item.meta.title;

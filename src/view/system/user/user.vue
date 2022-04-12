@@ -2,7 +2,7 @@
 
   <div class="root">
 <!--    顶部搜索-->
-    <el-form :inline="true" :model="formInline" class="demo-form-inline">
+    <el-form :inline="true" :model="formInline" class="demo-form-inline"  size="small">
       <el-form-item >
         <el-select v-model="formInline.region" placeholder="搜索类型">
           <el-option label="账户" value="username"></el-option>
@@ -12,21 +12,30 @@
           <el-option label="是否启用" value="enable"></el-option>
         </el-select>
       </el-form-item>
+      <el-form-item >
+        <el-input
+            v-model="search_value"
+            class="search"
+            placeholder="请输入内容"
+            prefix-icon="el-icon-search">
+        </el-input>
+      </el-form-item>
+      <el-form-item>
+        <el-button type="primary" plain icon="el-icon-search" @click="search()" size="mini">搜索</el-button>
+
+
+      </el-form-item>
     </el-form>
-    <el-input
-        v-model="search_value"
-        class="search"
-        placeholder="请输入内容"
-        prefix-icon="el-icon-search">
-    </el-input>
 
-    <el-button type="primary" class="search-btn" @click="search()">搜索</el-button>
+    <el-row :gutter="10" class="mb8">
+      <el-col :span="1.5">
+        <el-button type="primary" plain class="add-btn" icon="el-icon-plus" @click="dialogTableVisible_add = true" size="mini">增加用户</el-button>
+      </el-col>
+    </el-row>
 
-    <el-button type="primary" class="add-btn" @click="dialogTableVisible_add = true">增加用户</el-button>
 <!--    用户列表-->
     <el-table
         :data="userData"
-        border
         style="width: 100%">
       <el-table-column
           type="index"
@@ -96,13 +105,15 @@
 
       <el-table-column
           label="操作"
-          width="260">
-        <template slot-scope="scoped">
+          width="260"
+          align="center"
+          class-name="small-padding fixed-width">
+        <template slot-scope="scoped" >
 
 <!--          <el-button type="danger" icon="el-icon-delete" circle @click="removeUserDialog(scoped.row.id)"></el-button>-->
-          <el-button type="primary" icon="el-icon-edit" circle @click="editUserDialog(scoped.row.id)"></el-button>
-          <el-button type="primary" icon="el-icon-s-check" circle @click="getUserRole(scoped.row.id)"></el-button>
-          <el-button type="primary" icon="el-icon-menu" circle @click="getUserMenu(scoped.row.id)"></el-button>
+          <el-button type="text" size="mini" circle @click="editUserDialog(scoped.row.id)">修改</el-button>
+          <el-button type="text" size="mini" circle @click="getUserRole(scoped.row.id)">查看用户角色</el-button>
+<!--          <el-button type="text" size="mini" circle @click="getUserMenu(scoped.row.id)">查看用户菜单</el-button>-->
 
         </template>
       </el-table-column>
@@ -112,29 +123,30 @@
 
     <el-dialog title="菜单管理" :visible.sync="dialogTableVisible_menu" width="400px">
       <el-table :data="user_menuData">
-        <el-table-column property="id" label="ID" width="150"></el-table-column>
-        <el-table-column property="name" label="菜单名称" width="200"></el-table-column>
+        <el-table-column property="menuId" label="ID" width="150"></el-table-column>
+        <el-table-column property="menuName" label="菜单名称" width="200"></el-table-column>
 
       </el-table>
     </el-dialog>
 
     <el-dialog title="角色管理" :visible.sync="dialogTableVisible_role">
-      <el-button type="primary" class="add-role-btn" @click="addRoleDialog()">增加角色</el-button>
+<!--      <el-button type="primary" class="add-role-btn" plain size="mini" @click="addRoleDialog()">增加角色</el-button>-->
       <el-table :data="user_roleData">
 
         <el-table-column type="index" label="id" width="150"></el-table-column>
-        <el-table-column property="role.name" label="角色名称" width="200"></el-table-column>
-        <el-table-column property="del" label="是否删除">
-        <template slot-scope="scoped">
-          <el-switch
-              v-model="scoped.row.del"
-              active-color="#13ce66"
-              inactive-color="#ff4949"
-              :active-value="0"
-              :inactive-value="1"
-              @change="removeUserRole($event, scoped.row.voId, scoped.column)">
-          </el-switch>
-        </template>
+        <el-table-column property="name" label="角色名称" width="200"></el-table-column>
+        <el-table-column
+            label="操作"
+            width="260"
+            align="center"
+            class-name="small-padding fixed-width">
+          <template slot-scope="scoped" >
+
+            <!--          <el-button type="danger" icon="el-icon-delete" circle @click="removeUserDialog(scoped.row.id)"></el-button>-->
+            <el-button type="text" size="mini" circle @click="removeUserRole(scoped.row.voId)">删除</el-button>
+            <el-button type="text" size="mini" circle @click="addRoleDialog()">新增</el-button>
+
+          </template>
         </el-table-column>
 
       </el-table>
@@ -149,28 +161,6 @@
         <el-form-item label="密码" :label-width="formLabelWidth">
           <el-input v-model="form_add.password" autocomplete="off"></el-input>
         </el-form-item>
-        <!--        <el-form-item label="用户名" :label-width="formLabelWidth">-->
-        <!--          <el-input v-model="form.name" autocomplete="off"></el-input>-->
-        <!--        </el-form-item>-->
-        <!--        <el-form-item label="备注" :label-width="formLabelWidth">-->
-        <!--          <el-input v-model="form.name" autocomplete="off"></el-input>-->
-        <!--        </el-form-item>-->
-
-        <!--        <el-form-item label="角色" :label-width="formLabelWidth">-->
-        <!--          <el-checkbox :indeterminate="isIndeterminate" v-model="checkAll" @change="handleCheckAllChange">全选</el-checkbox>-->
-        <!--          <div style="margin: 15px 0;"></div>-->
-        <!--          <el-checkbox-group v-model="checkedCities" @change="handleCheckedCitiesChange">-->
-        <!--            <el-checkbox v-for="city in cities" :label="city" :key="city">{{city}}</el-checkbox>-->
-        <!--          </el-checkbox-group>-->
-        <!--        </el-form-item>-->
-
-        <!--        <el-form-item label="菜单" :label-width="formLabelWidth">-->
-        <!--          <el-checkbox :indeterminate="isIndeterminate" v-model="checkAll" @change="handleCheckAllChange">全选</el-checkbox>-->
-        <!--          <div style="margin: 15px 0;"></div>-->
-        <!--          <el-checkbox-group v-model="checkedCities" @change="handleCheckedCitiesChange">-->
-        <!--            <el-checkbox v-for="city in cities" :label="city" :key="city">{{city}}</el-checkbox>-->
-        <!--          </el-checkbox-group>-->
-        <!--        </el-form-item>-->
       </el-form>
       <div slot="footer" class="dialog-footer">
         <el-button @click="dialogTableVisible_add = false">取 消</el-button>
@@ -181,12 +171,6 @@
     <el-dialog title="编辑用户" :visible.sync="dialogTableVisible_edit">
 
       <el-form ref="form" :model="form" label-width="80px">
-        <el-form-item label="账号" :label-width="formLabelWidth">
-          <el-input v-model="form.username" autocomplete="off"></el-input>
-        </el-form-item>
-        <el-form-item label="密码" :label-width="formLabelWidth">
-          <el-input v-model="form.password" autocomplete="off"></el-input>
-        </el-form-item>
         <el-form-item label="电话" :label-width="formLabelWidth">
           <el-input v-model="form.tel" autocomplete="off"></el-input>
         </el-form-item>
@@ -215,6 +199,19 @@
       <span>确认删除吗？</span>
       <span slot="footer" class="dialog-footer">
     <el-button @click="dialogVisible_remove = false">取 消</el-button>
+    <el-button type="primary" @click="removeUser()">确 定</el-button>
+  </span>
+    </el-dialog>
+
+    <!--    删除角色确认框-->
+    <el-dialog
+        title="提示"
+        :visible.sync="dialogVisible_remove_role"
+        width="30%"
+    >
+      <span>确认删除吗？</span>
+      <span slot="footer" class="dialog-footer">
+    <el-button @click="dialogVisible_remove_role = false">取 消</el-button>
     <el-button type="primary" @click="removeUser()">确 定</el-button>
   </span>
     </el-dialog>
@@ -260,10 +257,7 @@ export default {
 
       //菜单数据
       user_menuData: [],
-      //角色列表
-   //   roleList:[],
-      //角色管理
-    //  roles: [],
+
       dialogTableVisible_menu: false,
       dialogTableVisible_role: false,
       dialogTableVisible_add: false,
@@ -272,6 +266,8 @@ export default {
       dialogFormVisible_add_role_diablog: false,
 
       remove_id:'',
+
+      remove_role_id:'',
       form: {
         id:'',
         username: '',
@@ -341,7 +337,7 @@ export default {
       capis.getUserRole({
         id: id
       }).then(res => {
-        this.user_roleData = res.datas
+        this.user_roleData = res.datas.roles
 
       })
 
@@ -486,11 +482,11 @@ export default {
 
     },
 
-    removeUserRole(value,  id , { property }){
+    removeUserRole(  id ){
 
       capis.removeUserRole({
         voId:id,
-        del:value
+        del:1
       })
     }
   },

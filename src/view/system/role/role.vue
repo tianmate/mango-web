@@ -1,9 +1,14 @@
 <template>
   <div>
-    <el-button type="primary" class="add-btn" @click="dialogTableVisible_add = true">新增角色</el-button>
+<!--    <el-button type="primary" class="add-btn" @click="dialogTableVisible_add = true">新增角色</el-button>-->
+
+    <el-row :gutter="10" class="mb8">
+      <el-col :span="1.5">
+        <el-button type="primary" plain class="add-btn" icon="el-icon-plus" @click="dialogTableVisible_add = true" size="mini">增加用户</el-button>
+      </el-col>
+    </el-row>
   <el-table
       :data="tableData"
-      border
       style="width: 100%">
     <el-table-column
         prop="id"
@@ -58,11 +63,13 @@
     </el-table-column>
     <el-table-column
         label="操作"
-        width="200">
+        width="200"
+        align="center"
+        class-name="small-padding fixed-width">
       <template  slot-scope="scoped">
 <!--        <el-button type="danger" icon="el-icon-delete" circle></el-button>-->
-        <el-button type="primary" icon="el-icon-edit" circle @click="editRoleDialog(scoped.row.id)"></el-button>
-        <el-button type="primary" icon="el-icon-menu" circle @click="getRoleMenu(scoped.row.id)"></el-button>
+        <el-button type="text" size="mini" circle @click="editRoleDialog(scoped.row.id)">编辑</el-button>
+        <el-button type="text" size="mini" circle @click="getRoleMenu(scoped.row.id)">查看角色菜单</el-button>
 <!--        <el-button type="text" size="small">编辑</el-button>-->
       </template>
     </el-table-column>
