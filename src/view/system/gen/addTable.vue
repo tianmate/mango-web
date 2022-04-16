@@ -152,7 +152,7 @@
 </template>
 
 <script>
-import { getGenTable, updateGenTable } from "@/api/tool/gen";
+import { getGenTable, updateGenTable,addGenTable} from "@/api/tool/gen";
 import { optionselect as getDictOptionselect } from "@/api/system/dict/type";
 // import { listMenu as getMenuTreeselect } from "@/api/system/menu";
 import basicInfoForm from "./basicInfoForm";
@@ -288,7 +288,7 @@ export default {
             treeParentCode: genTable.treeParentCode,
             parentMenuId: genTable.parentMenuId
           };
-          updateGenTable(genTable).then(res => {
+          addGenTable(genTable).then(res => {
             this.$modal.msgSuccess(res.msg);
             if (res.code === 200) {
               this.close();

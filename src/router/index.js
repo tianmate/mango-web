@@ -28,6 +28,21 @@ const routes = [
                 meta: { title: '个人中心', icon: 'user', affix: true }
 
             },
+            {
+                path: '/tool/editTable',
+               // hidden: true,
+                component: () => import('../view/system/gen/editTable'),
+                name: '编辑代码生成',
+                meta: { title: '修改生成配置', activeMenu: '/tool/gen' }
+
+            },
+            {
+                path: '/tool/addTable',
+                component: () => import('../view/system/gen/addTable'),
+                name: '新增代码生成',
+                meta: { title: '修改生成配置', activeMenu: '/tool/gen' }
+
+            },
         ]
     },
 

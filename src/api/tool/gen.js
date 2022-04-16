@@ -26,6 +26,15 @@ export function getGenTable(tableId) {
 }
 
 // 修改代码生成信息
+export function addGenTable(data) {
+  return request({
+    url: '/gen/table/add',
+    method: 'post',
+    data: data
+  })
+}
+
+// 修改代码生成信息
 export function updateGenTable(data) {
   return request({
     url: '/gen/table',

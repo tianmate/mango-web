@@ -43,7 +43,7 @@
           size="mini"
           @click="handleGenTable"
 
-        >创建</el-button>
+        >新增</el-button>
       </el-col>
       <el-col :span="1.5">
         <el-button
@@ -295,7 +295,7 @@ export default {
     handleGenTable(row) {
 
       this.$router.push({
-        path: '/tool/editTable',
+        path: '/tool/addTable',
 
       });
 
