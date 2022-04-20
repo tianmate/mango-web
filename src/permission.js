@@ -95,6 +95,7 @@ function routerGo(to, next) {
         const sdata = JSON.parse(JSON.stringify(res.datas))
         getRouter = filterAsyncRouter(sdata) //过滤路由|转换为路由对象
         router.addRoutes(getRouter) //动态添加路由
+
         // global.antRouter = getRouter //将路由数据传递给全局变量，做侧边栏菜单渲染工作
         next({ ...to, replace: true })
         }
@@ -165,7 +166,7 @@ function filterChildren(childrenMap, lastRouter = false) {
 export const loadView = (view) => {
     if (process.env.NODE_ENV === 'development') {
 
-        return (resolve) => require([`@/view/system/${view}`], resolve)
+        return (resolve) => require([`@/view/${view}`], resolve)
     } else {
         // 使用 import 实现生产环境的路由懒加载
         return () => import(`@/view/system/user/user`)

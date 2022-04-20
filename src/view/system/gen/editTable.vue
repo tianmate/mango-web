@@ -48,24 +48,24 @@
               </el-select>
             </template>
           </el-table-column>
-          <el-table-column label="Java类型" min-width="11%">
-            <template slot-scope="scope">
-              <el-select v-model="scope.row.javaType">
-                <el-option label="Long" value="Long" />
-                <el-option label="String" value="String" />
-                <el-option label="Integer" value="Integer" />
-                <el-option label="Double" value="Double" />
-                <el-option label="BigDecimal" value="BigDecimal" />
-                <el-option label="Date" value="Date" />
-                <el-option label="Boolean" value="Boolean" />
-              </el-select>
-            </template>
-          </el-table-column>
-          <el-table-column label="java属性" min-width="10%">
-            <template slot-scope="scope">
-              <el-input v-model="scope.row.javaField"></el-input>
-            </template>
-          </el-table-column>
+<!--          <el-table-column label="Java类型" min-width="11%">-->
+<!--            <template slot-scope="scope">-->
+<!--              <el-select v-model="scope.row.javaType">-->
+<!--                <el-option label="Long" value="Long" />-->
+<!--                <el-option label="String" value="String" />-->
+<!--                <el-option label="Integer" value="Integer" />-->
+<!--                <el-option label="Double" value="Double" />-->
+<!--                <el-option label="BigDecimal" value="BigDecimal" />-->
+<!--                <el-option label="Date" value="Date" />-->
+<!--                <el-option label="Boolean" value="Boolean" />-->
+<!--              </el-select>-->
+<!--            </template>-->
+<!--          </el-table-column>-->
+<!--          <el-table-column label="java属性" min-width="10%">-->
+<!--            <template slot-scope="scope">-->
+<!--              <el-input v-model="scope.row.javaField"></el-input>-->
+<!--            </template>-->
+<!--          </el-table-column>-->
 
           <el-table-column label="插入" min-width="5%">
             <template slot-scope="scope">

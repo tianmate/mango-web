@@ -149,9 +149,9 @@
             type="text"
             size="small"
             icon="el-icon-download"
-            @click="createDb(scope.row)"
+            @click="createCode(scope.row)"
 
-          >生成数据库</el-button>
+          >生成代码</el-button>
           <el-button
               type="text"
               size="small"
@@ -384,8 +384,8 @@ export default {
       createDbAndCode(row.tableId).then(response => {
       });
     },
-    //创建数据库
-    createDb(row){
+    //生成代码
+    createCode(row){
       console.log(row.tableId)
     }
   },

@@ -1,25 +1,6 @@
 <template>
   <div class="app-container">
     <el-form :model="queryParams" ref="queryForm" :inline="true" v-show="showSearch" label-width="68px">
-      <el-form-item label="公告标题" prop="noticeTitle">
-        <el-input
-          v-model="queryParams.noticeTitle"
-          placeholder="请输入公告标题"
-          clearable
-          size="small"
-          @keyup.enter.native="handleQuery"
-        />
-      </el-form-item>
-      <el-form-item label="公告类型" prop="noticeType">
-        <el-select v-model="queryParams.noticeType" placeholder="请选择公告类型" clearable size="small">
-          <el-option label="请选择字典生成" value="" />
-        </el-select>
-      </el-form-item>
-      <el-form-item label="公告状态" prop="status">
-        <el-select v-model="queryParams.status" placeholder="请选择公告状态" clearable size="small">
-          <el-option label="请选择字典生成" value="" />
-        </el-select>
-      </el-form-item>
       <el-form-item>
         <el-button type="primary" icon="el-icon-search" size="mini" @click="handleQuery">搜索</el-button>
         <el-button icon="el-icon-refresh" size="mini" @click="resetQuery">重置</el-button>
@@ -34,7 +15,6 @@
           icon="el-icon-plus"
           size="mini"
           @click="handleAdd"
-
         >新增</el-button>
       </el-col>
       <el-col :span="1.5">
@@ -45,7 +25,6 @@
           size="mini"
           :disabled="single"
           @click="handleUpdate"
-
         >修改</el-button>
       </el-col>
       <el-col :span="1.5">
@@ -56,7 +35,6 @@
           size="mini"
           :disabled="multiple"
           @click="handleDelete"
-
         >删除</el-button>
       </el-col>
       <el-col :span="1.5">
@@ -66,20 +44,14 @@
           icon="el-icon-download"
           size="mini"
           @click="handleExport"
-
         >导出</el-button>
       </el-col>
       <right-toolbar :showSearch.sync="showSearch" @queryTable="getList"></right-toolbar>
     </el-row>
 
-    <el-table v-loading="loading" :data="noticeList" @selection-change="handleSelectionChange">
+    <el-table v-loading="loading" :data="testList" @selection-change="handleSelectionChange">
       <el-table-column type="selection" width="55" align="center" />
-      <el-table-column label="公告ID" align="center" prop="noticeId" />
-      <el-table-column label="公告标题" align="center" prop="noticeTitle" />
-      <el-table-column label="公告类型" align="center" prop="noticeType" />
-      <el-table-column label="公告内容" align="center" prop="noticeContent" />
-      <el-table-column label="公告状态" align="center" prop="status" />
-      <el-table-column label="备注" align="center" prop="remark" />
+      <el-table-column label="id" align="center" prop="id" />
       <el-table-column label="操作" align="center" class-name="small-padding fixed-width">
         <template slot-scope="scope">
           <el-button
@@ -87,14 +59,12 @@
             type="text"
             icon="el-icon-edit"
             @click="handleUpdate(scope.row)"
-
           >修改</el-button>
           <el-button
             size="mini"
             type="text"
             icon="el-icon-delete"
             @click="handleDelete(scope.row)"
-
           >删除</el-button>
         </template>
       </el-table-column>
@@ -108,27 +78,11 @@
       @pagination="getList"
     />
 
-    <!-- 添加或修改通知公告对话框 -->
+    <!-- 添加或修改test对话框 -->
     <el-dialog :title="title" :visible.sync="open" width="500px" append-to-body>
       <el-form ref="form" :model="form" :rules="rules" label-width="80px">
-        <el-form-item label="公告标题" prop="noticeTitle">
-          <el-input v-model="form.noticeTitle" placeholder="请输入公告标题" />
-        </el-form-item>
-        <el-form-item label="公告类型" prop="noticeType">
-          <el-select v-model="form.noticeType" placeholder="请选择公告类型">
-            <el-option label="请选择字典生成" value="" />
-          </el-select>
-        </el-form-item>
-        <el-form-item label="公告内容">
-          <editor v-model="form.noticeContent" :min-height="192"/>
-        </el-form-item>
-        <el-form-item label="公告状态">
-          <el-radio-group v-model="form.status">
-            <el-radio label="1">请选择字典生成</el-radio>
-          </el-radio-group>
-        </el-form-item>
-        <el-form-item label="备注" prop="remark">
-          <el-input v-model="form.remark" placeholder="请输入备注" />
+        <el-form-item label="id" prop="id">
+          <el-input v-model="form.id" placeholder="请输入id" />
         </el-form-item>
       </el-form>
       <div slot="footer" class="dialog-footer">
@@ -140,13 +94,11 @@
 </template>
 
 <script>
-import { listNotice, getNotice, delNotice, addNotice, updateNotice, exportNotice } from "@/api/work/notice";
-import Editor from '@/layout/Editor';
+import { listTest, getTest, delTest, addTest, updateTest, exportTest } from "@/api/work/test";
 
 export default {
-  name: "Notice",
+  name: "Test",
   components: {
-    Editor,
   },
   data() {
     return {
@@ -162,8 +114,8 @@ export default {
       showSearch: true,
       // 总条数
       total: 0,
-      // 通知公告表格数据
-      noticeList: [],
+      // test表格数据
+      testList: [],
       // 弹出层标题
       title: "",
       // 是否显示弹出层
@@ -172,21 +124,11 @@ export default {
       queryParams: {
         pageNum: 1,
         pageSize: 10,
-        noticeTitle: null,
-        noticeType: null,
-        noticeContent: null,
-        status: null,
       },
       // 表单参数
       form: {},
       // 表单校验
       rules: {
-        noticeTitle: [
-          { required: true, message: "公告标题不能为空", trigger: "blur" }
-        ],
-        noticeType: [
-          { required: true, message: "公告类型不能为空", trigger: "change" }
-        ],
       }
     };
   },
@@ -194,11 +136,11 @@ export default {
     this.getList();
   },
   methods: {
-    /** 查询通知公告列表 */
+    /** 查询test列表 */
     getList() {
       this.loading = true;
-      listNotice(this.queryParams).then(response => {
-        this.noticeList = response.datas;
+      listTest(this.queryParams).then(response => {
+        this.testList = response.datas;
         this.total = response.total;
         this.loading = false;
       });
@@ -211,18 +153,9 @@ export default {
     // 表单重置
     reset() {
       this.form = {
-        noticeId: null,
-        noticeTitle: null,
-        noticeType: null,
-        noticeContent: null,
-        status: "0",
-        createBy: null,
-        createTime: null,
-        updateBy: null,
-        updateTime: null,
-        remark: null
+        id: null
       };
-     // this.resetForm("form");
+      this.resetForm("form");
     },
     /** 搜索按钮操作 */
     handleQuery() {
@@ -236,7 +169,7 @@ export default {
     },
     // 多选框选中数据
     handleSelectionChange(selection) {
-      this.ids = selection.map(item => item.noticeId)
+      this.ids = selection.map(item => item.id)
       this.single = selection.length!==1
       this.multiple = !selection.length
     },
@@ -244,30 +177,30 @@ export default {
     handleAdd() {
       this.reset();
       this.open = true;
-      this.title = "添加通知公告";
+      this.title = "添加test";
     },
     /** 修改按钮操作 */
     handleUpdate(row) {
       this.reset();
-      const noticeId = row.noticeId || this.ids
-      getNotice(noticeId).then(response => {
+      const id = row.id || this.ids
+      getTest(id).then(response => {
         this.form = response.datas;
         this.open = true;
-        this.title = "修改通知公告";
+        this.title = "修改test";
       });
     },
     /** 提交按钮 */
     submitForm() {
       this.$refs["form"].validate(valid => {
         if (valid) {
-          if (this.form.noticeId != null) {
-            updateNotice(this.form).then(response => {
-            //  this.msgSuccess("修改成功");
+          if (this.form.id != null) {
+            updateTest(this.form).then(response => {
+              this.msgSuccess("修改成功");
               this.open = false;
               this.getList();
             });
           } else {
-            addNotice(this.form).then(response => {
+            addTest(this.form).then(response => {
               this.msgSuccess("新增成功");
               this.open = false;
               this.getList();
@@ -278,13 +211,13 @@ export default {
     },
     /** 删除按钮操作 */
     handleDelete(row) {
-      const noticeIds = row.noticeId || this.ids;
-      this.$confirm('是否确认删除通知公告编号为"' + noticeIds + '"的数据项?', "警告", {
+      const ids = row.id || this.ids;
+      this.$confirm('是否确认删除test编号为"' + ids + '"的数据项?', "警告", {
           confirmButtonText: "确定",
           cancelButtonText: "取消",
           type: "warning"
         }).then(function() {
-          return delNotice(noticeIds);
+          return delTest(ids);
         }).then(() => {
           this.getList();
           this.msgSuccess("删除成功");
@@ -293,12 +226,12 @@ export default {
     /** 导出按钮操作 */
     handleExport() {
       const queryParams = this.queryParams;
-      this.$confirm('是否确认导出所有通知公告数据项?', "警告", {
+      this.$confirm('是否确认导出所有test数据项?', "警告", {
           confirmButtonText: "确定",
           cancelButtonText: "取消",
           type: "warning"
         }).then(function() {
-          return exportNotice(queryParams);
+          return exportTest(queryParams);
         }).then(response => {
           this.download(response.msg);
         })

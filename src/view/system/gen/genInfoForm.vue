@@ -50,7 +50,7 @@
       <el-col :span="12">
         <el-form-item prop="functionName">
           <span slot="label">
-            生成功能名
+            菜单名
             <el-tooltip content="用作类描述，例如 用户" placement="top">
               <i class="el-icon-question"></i>
             </el-tooltip>
