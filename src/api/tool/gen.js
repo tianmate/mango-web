@@ -25,7 +25,7 @@ export function getGenTable(tableId) {
   })
 }
 
-// 修改代码生成信息
+// 增加代码生成信息
 export function addGenTable(data) {
   return request({
     url: '/gen/table/add',
@@ -88,6 +88,14 @@ export function synchDb(tableName) {
 export function createDbAndCode(tableName) {
   return request({
     url: '/gen/table/createDbAndCode/' + tableName,
+    method: 'get'
+  })
+}
+
+// 生成代码
+export function createCode(tableName) {
+  return request({
+    url: '/gen/table/createCode/' + tableName,
     method: 'get'
   })
 }

@@ -38,7 +38,7 @@ export function updateTeacher(data) {
 // 删除teacher_fuc
 export function delTeacher(id) {
   return request({
-    url: '/work/teacher/' + id+'/remove',
+    url: '/work/teacher/remove/' + id,
     method: 'get'
   })
 }

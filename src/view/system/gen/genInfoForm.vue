@@ -11,29 +11,30 @@
           </el-select>
         </el-form-item>
       </el-col>
-      <el-col :span="12">
-        <el-form-item prop="packageName">
-          <span slot="label">
-            生成包路径
-            <el-tooltip content="生成在哪个java包下，例如 com.ruoyi.system" placement="top">
-              <i class="el-icon-question"></i>
-            </el-tooltip>
-          </span>
-          <el-input v-model="info.packageName" />
-        </el-form-item>
-      </el-col>
 
-      <el-col :span="12">
-        <el-form-item prop="moduleName">
-          <span slot="label">
-            生成模块名
-            <el-tooltip content="可理解为子系统名，例如 system" placement="top">
-              <i class="el-icon-question"></i>
-            </el-tooltip>
-          </span>
-          <el-input v-model="info.moduleName" />
-        </el-form-item>
-      </el-col>
+<!--      <el-col :span="12">-->
+<!--        <el-form-item prop="packageName">-->
+<!--          <span slot="label">-->
+<!--            生成包路径-->
+<!--            <el-tooltip content="生成在哪个java包下，例如 cn.sky1998.mongo" placement="top">-->
+<!--              <i class="el-icon-question"></i>-->
+<!--            </el-tooltip>-->
+<!--          </span>-->
+<!--          <el-input v-model="info.packageName" />-->
+<!--        </el-form-item>-->
+<!--      </el-col>-->
+
+<!--      <el-col :span="12">-->
+<!--        <el-form-item prop="moduleName">-->
+<!--          <span slot="label">-->
+<!--            生成模块名-->
+<!--            <el-tooltip content="可理解为子系统名，例如 system" placement="top">-->
+<!--              <i class="el-icon-question"></i>-->
+<!--            </el-tooltip>-->
+<!--          </span>-->
+<!--          <el-input v-model="info.moduleName" />-->
+<!--        </el-form-item>-->
+<!--      </el-col>-->
 
       <el-col :span="12">
         <el-form-item prop="businessName">
@@ -228,10 +229,10 @@ export default {
       type: Array,
       default: null
     },
-    menus: {
-      type: Array,
-      default: []
-    },
+    // menus: {
+    //   type: Array,
+    //   default: []
+    // },
   },
   data() {
     return {

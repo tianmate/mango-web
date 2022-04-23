@@ -4,7 +4,7 @@
 
     <el-row :gutter="10" class="mb8">
       <el-col :span="1.5">
-        <el-button type="primary" plain class="add-btn" icon="el-icon-plus" @click="dialogTableVisible_add = true" size="mini">增加用户</el-button>
+        <el-button type="primary" plain class="add-btn" icon="el-icon-plus" @click="dialogTableVisible_add = true" size="mini">增加角色</el-button>
       </el-col>
     </el-row>
   <el-table
@@ -68,8 +68,8 @@
         class-name="small-padding fixed-width">
       <template  slot-scope="scoped">
 <!--        <el-button type="danger" icon="el-icon-delete" circle></el-button>-->
-        <el-button type="text" size="mini" circle @click="editRoleDialog(scoped.row.id)">编辑</el-button>
-        <el-button type="text" size="mini" circle @click="getRoleMenu(scoped.row.id)">查看角色菜单</el-button>
+        <el-button type="text" size="mini" circle @click="editRoleDialog(scoped.row.id)">修改</el-button>
+<!--        <el-button type="text" size="mini" circle @click="getRoleMenu(scoped.row.id)">查看角色菜单</el-button>-->
 <!--        <el-button type="text" size="small">编辑</el-button>-->
       </template>
     </el-table-column>
@@ -90,8 +90,8 @@
       </div>
     </el-dialog>
 
-    <el-dialog title="编辑角色" :visible.sync="dialogTableVisible_edit">
-      <el-form :model="form">
+    <el-dialog title="编辑角色" :visible.sync="dialogTableVisible_edit" width="500px">
+      <el-form :model="form" label-width="100px">
         <el-form-item label="角色名称" :label-width="formLabelWidth">
           <el-input v-model="form.name" autocomplete="off"></el-input>
         </el-form-item>
@@ -101,6 +101,23 @@
         <el-form-item label="排序" :label-width="formLabelWidth">
           <el-input v-model="form.order" autocomplete="off"></el-input>
         </el-form-item>
+
+        <el-form-item label="菜单权限">
+          <el-checkbox v-model="menuExpand" @change="handleCheckedTreeExpand($event, 'menu')">展开/折叠</el-checkbox>
+          <el-checkbox v-model="menuNodeAll" @change="handleCheckedTreeNodeAll($event, 'menu')">全选/全不选</el-checkbox>
+          <el-checkbox v-model="form.menuCheckStrictly" @change="handleCheckedTreeConnect($event, 'menu')">父子联动</el-checkbox>
+          <el-tree
+              class="tree-border"
+              :data="menuOptions"
+              show-checkbox
+              ref="menu"
+              node-key="id"
+              :check-strictly="!form.menuCheckStrictly"
+              empty-text="加载中，请稍候"
+              :props="defaultProps"
+          ></el-tree>
+        </el-form-item>
+
         <el-form-item label="备注" :label-width="formLabelWidth">
           <el-input v-model="form.remark" autocomplete="off"></el-input>
         </el-form-item>
@@ -113,26 +130,26 @@
 
     <el-dialog title="菜单管理" :visible.sync="dialogTableVisible_menu">
       <el-button type="primary" class="add-role-btn" @click="addMenuDialog()">增加菜单</el-button>
-      <el-table :data="role_menuData">
+      <el-table :data="role_menuData.menus">
 
         <el-table-column type="index" label="id" width="150"></el-table-column>
-        <el-table-column property="menu.name" label="菜单名称" width="200"></el-table-column>
+        <el-table-column property="menuName" label="菜单名称" width="200"></el-table-column>
 
-        <el-table-column
-            prop="del"
-            label="是否删除">
-          <template slot-scope="scoped">
-            <el-switch
-                v-model="scoped.row.del"
-                active-color="#13ce66"
-                inactive-color="#ff4949"
-                :active-value="0"
-                :inactive-value="1"
-                @change="removeRoleMenu($event, scoped.row.voId, scoped.column)">
-            </el-switch>
+<!--        <el-table-column-->
+<!--            prop="del"-->
+<!--            label="是否删除">-->
+<!--          <template slot-scope="scoped">-->
+<!--            <el-switch-->
+<!--                v-model="scoped.row.del"-->
+<!--                active-color="#13ce66"-->
+<!--                inactive-color="#ff4949"-->
+<!--                :active-value="0"-->
+<!--                :inactive-value="1"-->
+<!--                @change="removeRoleMenu($event, scoped.row.voId, scoped.column)">-->
+<!--            </el-switch>-->
 
-          </template>
-        </el-table-column>
+<!--          </template>-->
+<!--        </el-table-column>-->
 
       </el-table>
     </el-dialog>
@@ -263,9 +280,8 @@ export default {
       })
 
 
-
-
     },
+
     getRoleMenu: function (id) {
       this.select_add_menu_role_id=id
       this.dialogTableVisible_menu = true
@@ -340,7 +356,36 @@ export default {
       })
     },
 
-
+// 树权限（展开/折叠）
+    handleCheckedTreeExpand(value, type) {
+      if (type == 'menu') {
+        let treeList = this.menuOptions;
+        for (let i = 0; i < treeList.length; i++) {
+          this.$refs.menu.store.nodesMap[treeList[i].id].expanded = value;
+        }
+      } else if (type == 'dept') {
+        let treeList = this.deptOptions;
+        for (let i = 0; i < treeList.length; i++) {
+          this.$refs.dept.store.nodesMap[treeList[i].id].expanded = value;
+        }
+      }
+    },
+    // 树权限（全选/全不选）
+    handleCheckedTreeNodeAll(value, type) {
+      if (type == 'menu') {
+        this.$refs.menu.setCheckedNodes(value ? this.menuOptions: []);
+      } else if (type == 'dept') {
+        this.$refs.dept.setCheckedNodes(value ? this.deptOptions: []);
+      }
+    },
+    // 树权限（父子联动）
+    handleCheckedTreeConnect(value, type) {
+      if (type == 'menu') {
+        this.form.menuCheckStrictly = value ? true: false;
+      } else if (type == 'dept') {
+        this.form.deptCheckStrictly = value ? true: false;
+      }
+    },
   },
   created() {
    this.getList();

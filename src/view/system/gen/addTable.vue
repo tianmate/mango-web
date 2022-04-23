@@ -5,10 +5,12 @@
     <el-tabs v-model="activeName">
       <el-tab-pane label="基本信息" name="basic">
         <basic-info-form ref="basicInfo" :info="info" />
-      </el-tab-pane>
-      <el-tab-pane label="生成信息" name="genInfo">
+
         <gen-info-form ref="genInfo" :info="info" :tables="tables" :menus="menus"/>
       </el-tab-pane>
+<!--      <el-tab-pane label="生成信息" >-->
+
+<!--      </el-tab-pane>-->
       <el-tab-pane label="字段信息" name="columnInfo">
 
         <el-table ref="dragTable" :data="columns" row-key="columnId" :max-height="tableHeight">
@@ -180,7 +182,10 @@ export default {
       // 菜单信息
       menus: [],
       // 表详细信息
-      info: {}
+      info: {
+        "packageName":"cn.sky1998.mongo.work",
+        "moduleName":"work"
+      }
     };
   },
   created() {

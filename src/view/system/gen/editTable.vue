@@ -5,10 +5,12 @@
     <el-tabs v-model="activeName">
       <el-tab-pane label="基本信息" name="basic">
         <basic-info-form ref="basicInfo" :info="info" />
-      </el-tab-pane>
-      <el-tab-pane label="生成信息" name="genInfo">
+
         <gen-info-form ref="genInfo" :info="info" :tables="tables" :menus="menus"/>
       </el-tab-pane>
+<!--      <el-tab-pane label="生成信息" name="genInfo">-->
+<!--      -->
+<!--      </el-tab-pane>-->
       <el-tab-pane label="字段信息" name="columnInfo">
 
         <el-table ref="dragTable" :data="columns" row-key="columnId" :max-height="tableHeight">
@@ -154,7 +156,7 @@
 <script>
 import { getGenTable, updateGenTable } from "@/api/tool/gen";
 import { optionselect as getDictOptionselect } from "@/api/system/dict/type";
-// import { listMenu as getMenuTreeselect } from "@/api/system/menu";
+ import { listMenu as getMenuTreeselect } from "@/api/system/menu";
 import basicInfoForm from "./basicInfoForm";
 import genInfoForm from "./genInfoForm";
 import Sortable from 'sortablejs'

@@ -159,6 +159,7 @@
               @click="createDbAndCode(scope.row)"
 
           >生成数据库和代码</el-button>
+
         </template>
       </el-table-column>
     </el-table>
@@ -208,7 +209,7 @@
 </template>
 
 <script>
-import { listTable, previewTable, delTable, genCode, synchDb ,createDbAndCode} from "@/api/tool/gen";
+import { listTable, previewTable, delTable, createCode, synchDb ,createDbAndCode} from "@/api/tool/gen";
 import importTable from "./importTable";
 import hljs from "highlight.js/lib/highlight";
 import "highlight.js/styles/github-gist.css";
@@ -324,6 +325,8 @@ export default {
     /** 打开导入表弹窗 */
     openImportTable() {
       console.log(11)
+
+      //导入后生成数据库 直接在列表显示 可以判断是否数据库已经生成了 否则就不在显示生成数据库按钮
      this.dialogFormVisible=true
     },
     /** 重置按钮操作 */
@@ -382,11 +385,14 @@ export default {
     //创建数据库和表
     createDbAndCode(row){
       createDbAndCode(row.tableId).then(response => {
+        this.$modal.msgSuccess("生成成功");
       });
     },
     //生成代码
     createCode(row){
-      console.log(row.tableId)
+      createCode(row.tableId).then(response => {
+        this.$modal.msgSuccess("生成成功");
+      });
     }
   },
 

@@ -27,6 +27,7 @@
       </el-form-item>
     </el-form>
 
+<!--    新增用户按钮-->
     <el-row :gutter="10" class="mb8">
       <el-col :span="1.5">
         <el-button type="primary" plain class="add-btn" icon="el-icon-plus" @click="dialogTableVisible_add = true" size="mini">增加用户</el-button>
@@ -67,7 +68,6 @@
           label="备注"
           width="120">
       </el-table-column>
-
 
       <el-table-column
           prop="enable"
@@ -112,7 +112,7 @@
 
 <!--          <el-button type="danger" icon="el-icon-delete" circle @click="removeUserDialog(scoped.row.id)"></el-button>-->
           <el-button type="text" size="mini" circle @click="editUserDialog(scoped.row.id)">修改</el-button>
-          <el-button type="text" size="mini" circle @click="getUserRole(scoped.row.id)">查看用户角色</el-button>
+          <el-button type="text" size="mini" circle @click="getUserRole(scoped.row.id)">查看用户菜单</el-button>
 <!--          <el-button type="text" size="mini" circle @click="getUserMenu(scoped.row.id)">查看用户菜单</el-button>-->
 
         </template>
@@ -121,14 +121,7 @@
     </el-table>
 
 
-    <el-dialog title="菜单管理" :visible.sync="dialogTableVisible_menu" width="400px">
-      <el-table :data="user_menuData">
-        <el-table-column property="menuId" label="ID" width="150"></el-table-column>
-        <el-table-column property="menuName" label="菜单名称" width="200"></el-table-column>
-
-      </el-table>
-    </el-dialog>
-
+<!--    角色管理弹窗-->
     <el-dialog title="角色管理" :visible.sync="dialogTableVisible_role">
 <!--      <el-button type="primary" class="add-role-btn" plain size="mini" @click="addRoleDialog()">增加角色</el-button>-->
       <el-table :data="user_roleData">
@@ -153,6 +146,7 @@
 
     </el-dialog>
 
+<!--    新增用户弹窗-->
     <el-dialog title="新增用户" :visible.sync="dialogTableVisible_add">
       <el-form :model="form_add">
         <el-form-item label="账号" :label-width="formLabelWidth">
@@ -168,6 +162,7 @@
       </div>
     </el-dialog>
 
+<!--    编辑用户弹窗-->
     <el-dialog title="编辑用户" :visible.sync="dialogTableVisible_edit">
 
       <el-form ref="form" :model="form" label-width="80px">
@@ -203,7 +198,7 @@
   </span>
     </el-dialog>
 
-    <!--    删除角色确认框-->
+<!--    删除角色确认框-->
     <el-dialog
         title="提示"
         :visible.sync="dialogVisible_remove_role"
@@ -254,10 +249,10 @@ export default {
       userData: [],
       //角色数据
       user_roleData: [],
-
       //菜单数据
       user_menuData: [],
 
+      dialogVisible_remove_role:false,
       dialogTableVisible_menu: false,
       dialogTableVisible_role: false,
       dialogTableVisible_add: false,
@@ -265,9 +260,8 @@ export default {
       dialogVisible_remove: false,
       dialogFormVisible_add_role_diablog: false,
 
-      remove_id:'',
 
-      remove_role_id:'',
+      //编辑数据
       form: {
         id:'',
         username: '',
@@ -277,6 +271,7 @@ export default {
         remark:''
       },
 
+      //新增数据
       form_add: {
         id:'',
         username: '',
@@ -421,10 +416,12 @@ export default {
         for (let i=0;i<this.user_roleData.length;i++){
 
           f=res.datas.filter(item=>item.id==this.user_roleData[i].id)
+          console.log(f)
           res.datas.splice(f,1)
 
         }
 
+       // res.datas.splice(res.datas[res.datas.length],1)
         console.log(res.datas)
         this.options_role=res.datas
       })

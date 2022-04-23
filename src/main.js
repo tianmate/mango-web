@@ -24,9 +24,12 @@ Vue.prototype.$http = axios;
 import RightToolbar from "./layout/RightToolbar"
 import { parseTime, resetForm, addDateRange, selectDictLabel, selectDictLabels, handleTree } from "@/utils/ruoyi";
 // ElementUI
-import ElementUI from 'element-ui';
+import ElementUI, {Message} from 'element-ui';
 import 'element-ui/lib/theme-chalk/index.css';
 Vue.use(ElementUI);
+
+import directive from './directive' // directive
+Vue.use(directive)
 
 //cookie
 import Cookies from 'js-cookie';
@@ -55,7 +58,7 @@ Vue.prototype.selectDictLabels = selectDictLabels
 // Vue.prototype.download = download
 Vue.prototype.handleTree = handleTree
 Vue.prototype.resetForm = resetForm
-
+Vue.prototype.$message = Message
 new Vue({
   router,
   store,
