@@ -112,8 +112,8 @@
 
 <!--          <el-button type="danger" icon="el-icon-delete" circle @click="removeUserDialog(scoped.row.id)"></el-button>-->
           <el-button type="text" size="mini" circle @click="editUserDialog(scoped.row.id)">修改</el-button>
-          <el-button type="text" size="mini" circle @click="getUserRole(scoped.row.id)">查看用户菜单</el-button>
-<!--          <el-button type="text" size="mini" circle @click="getUserMenu(scoped.row.id)">查看用户菜单</el-button>-->
+<!--          <el-button type="text" size="mini" circle @click="getUserRole(scoped.row.id)">查看用户角色</el-button>-->
+          <el-button type="text" size="mini" circle @click="getUserMenu(scoped.row.id)">查看用户菜单</el-button>
 
         </template>
       </el-table-column>
@@ -122,25 +122,17 @@
 
 
 <!--    角色管理弹窗-->
-    <el-dialog title="角色管理" :visible.sync="dialogTableVisible_role">
+    <el-dialog title="查看菜单" :visible.sync="dialogTableVisible_menu">
 <!--      <el-button type="primary" class="add-role-btn" plain size="mini" @click="addRoleDialog()">增加角色</el-button>-->
-      <el-table :data="user_roleData">
+      <el-table
+          :data="user_menuData"
+          row-key="menuId"
+          default-expand-all
+          :tree-props="{children: 'children', hasChildren: 'hasChildren'}">
 
-        <el-table-column type="index" label="id" width="150"></el-table-column>
-        <el-table-column property="name" label="角色名称" width="200"></el-table-column>
-        <el-table-column
-            label="操作"
-            width="260"
-            align="center"
-            class-name="small-padding fixed-width">
-          <template slot-scope="scoped" >
+        <el-table-column property="menuId" label="id" width="150"></el-table-column>
+        <el-table-column property="menuName" label="菜单名称" width="200"></el-table-column>
 
-            <!--          <el-button type="danger" icon="el-icon-delete" circle @click="removeUserDialog(scoped.row.id)"></el-button>-->
-            <el-button type="text" size="mini" circle @click="removeUserRole(scoped.row.voId)">删除</el-button>
-            <el-button type="text" size="mini" circle @click="addRoleDialog()">新增</el-button>
-
-          </template>
-        </el-table-column>
 
       </el-table>
 
@@ -171,6 +163,12 @@
         </el-form-item>
         <el-form-item label="用户名" :label-width="formLabelWidth">
           <el-input v-model="form.nickName" autocomplete="off"></el-input>
+        </el-form-item>
+
+        <el-form-item label="角色" :label-width="formLabelWidth">
+          <el-checkbox-group v-model="checkedRoles" @change="handleCheckedCitiesChange">
+            <el-checkbox v-for="role in roles" :label="role.id" :key="role.id">{{role.description}}</el-checkbox>
+          </el-checkbox-group>
         </el-form-item>
 
         <el-form-item label="备注" :label-width="formLabelWidth">
@@ -212,39 +210,41 @@
     </el-dialog>
 
 <!--    增加用户角色弹出框-->
-    <el-dialog title="添加角色" :visible.sync="dialogFormVisible_add_role_diablog">
-      <el-form :model="form">
-        <el-select
-            v-model="value_role"
-            multiple
-            filterable
-            allow-create
-            default-first-option
-            placeholder="请选择角色">
-          <el-option
-              v-for="item in options_role"
-              :key="item.id"
-              :label="item.description"
-              :value="item.id">
-          </el-option>
-        </el-select>
+<!--    <el-dialog title="添加角色" :visible.sync="dialogFormVisible_add_role_diablog">-->
+<!--      <el-form :model="form">-->
+<!--        <el-select-->
+<!--            v-model="value_role"-->
+<!--            multiple-->
+<!--            filterable-->
+<!--            allow-create-->
+<!--            default-first-option-->
+<!--            placeholder="请选择角色">-->
+<!--          <el-option-->
+<!--              v-for="item in options_role"-->
+<!--              :key="item.id"-->
+<!--              :label="item.description"-->
+<!--              :value="item.id">-->
+<!--          </el-option>-->
+<!--        </el-select>-->
 
-      </el-form>
-      <div slot="footer" class="dialog-footer">
-        <el-button @click="dialogFormVisible_add_role_diablog = false">取 消</el-button>
-        <el-button type="primary" @click="addRole()">确 定</el-button>
-      </div>
-    </el-dialog>
+<!--      </el-form>-->
+<!--      <div slot="footer" class="dialog-footer">-->
+<!--        <el-button @click="dialogFormVisible_add_role_diablog = false">取 消</el-button>-->
+<!--        <el-button type="primary" @click="addRole()">确 定</el-button>-->
+<!--      </div>-->
+<!--    </el-dialog>-->
 
   </div>
 
 </template>
 
 <script>
+import { updateUser } from "@/api/system/user";
 
 export default {
   data() {
     return {
+
       //用户数据
       userData: [],
       //角色数据
@@ -294,7 +294,15 @@ export default {
       options_role: [],
       value_role: [],
       select_add_role_account_id:"",
+
+      //角色复选框
+      checkAll: false,
+      checkedRoles: [],
+      roles: [],
+      isIndeterminate: true
     }
+
+
   },
   methods: {
 
@@ -317,6 +325,7 @@ export default {
         this.userData = res.datas
       })
     },
+
     getUserMenu: function (id) {
       this.dialogTableVisible_menu = true
       capis.getUserMenu({
@@ -325,6 +334,7 @@ export default {
         this.user_menuData = res.datas
       })
     },
+
     getUserRole: function (id) {
       this.select_add_role_account_id=id
       this.dialogTableVisible_role = true
@@ -332,7 +342,15 @@ export default {
       capis.getUserRole({
         id: id
       }).then(res => {
-        this.user_roleData = res.datas.roles
+       // this.cities = res.datas
+     // this.checkedCities=res.datas.roles
+        this.checkedRoles=[];
+        if (res.datas.roles!='undefined'){
+          for (let i = 0; i < res.datas.roles.length; i++) {
+            //console.log(res.datas.roles[i].id)
+            this.checkedRoles.push(res.datas.roles[i].id)
+          }
+        }
 
       })
 
@@ -342,7 +360,7 @@ export default {
       capis.getRole({
 
       }).then(res => {
-        this.options_role=res.datas
+        this.roles=res.datas
       })
     },
 
@@ -361,13 +379,21 @@ export default {
 
     },
     editUser: function () {
-      capis.editUser({
+
+      var roles=[];
+
+      for (let i = 0; i < this.checkedRoles.length; i++) {
+        roles.push({"id":this.checkedRoles[i]})
+      }
+
+      updateUser({
         id:this.form.id,
         username: this.form.username,
         password: this.form.password,
         tel:this.form.tel,
         nickName:this.form.nickName,
-        remark:this.form.remark
+        remark:this.form.remark,
+        roles:roles
       }).then(res=>{
         if (res.code==200){
           this.dialogTableVisible_edit = false
@@ -376,10 +402,13 @@ export default {
         }
       })
     },
+
     editUserDialog: function (id) {
       this.dialogTableVisible_edit = true
 
       this.getRoleList();
+      this.getUserRole(id);
+
       capis.getUser({
         id:id
       }).then(res=>{
@@ -392,6 +421,7 @@ export default {
         this.form.remark=res.datas[0].remark
       })
     },
+
     removeUser:function (value, { id }, { property }){
       capis.removeUser({
         id:id
@@ -404,39 +434,7 @@ export default {
       })
     },
 
-    addRoleDialog:function (){
-      this.dialogFormVisible_add_role_diablog = true
-      console.log(this.user_roleData)
-      capis.getRole({
 
-      }).then(res => {
-        console.log(res.datas)
-
-        var f=[];
-        for (let i=0;i<this.user_roleData.length;i++){
-
-          f=res.datas.filter(item=>item.id==this.user_roleData[i].id)
-          console.log(f)
-          res.datas.splice(f,1)
-
-        }
-
-       // res.datas.splice(res.datas[res.datas.length],1)
-        console.log(res.datas)
-        this.options_role=res.datas
-      })
-
-
-
-
-      // //存入选择列表
-      //    this.value_role.length=0
-      //   for (let i = 0; i < this.user_roleData.length; i++) {
-      // // /    console.log(this.user_roleData[i].role.id)
-      //     this.value_role.push(this.user_roleData[i].role.id)
-      //   }
-
-    },
 
     addRole:function (){
       const account={
@@ -485,6 +483,15 @@ export default {
         voId:id,
         del:1
       })
+    },
+
+    //选中复选框
+    handleCheckedCitiesChange(value) {
+      let checkedCount = value.length;
+      this.checkAll = checkedCount === this.cities.length;
+      this.isIndeterminate = checkedCount > 0 && checkedCount < this.cities.length;
+
+      console.log(this.checkedCities)
     }
   },
   created() {

@@ -27,11 +27,11 @@ export function addUser(data) {
   })
 }
 
-// 修改用户
+// 更新用户及角色
 export function updateUser(data) {
   return request({
-    url: '/system/user',
-    method: 'put',
+    url: '/system/account/updateUserRole',
+    method: 'post',
     data: data
   })
 }

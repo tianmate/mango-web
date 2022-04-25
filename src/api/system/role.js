@@ -28,3 +28,12 @@ export function addRole(query) {
     })
 }
 
+// 获取角色菜单
+export function getRoleMenu(data) {
+    return request({
+        url: '/system/role/getRoleMenu',
+        method: 'post',
+        data: data
+    })
+}
+

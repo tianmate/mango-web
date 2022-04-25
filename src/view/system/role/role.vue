@@ -108,10 +108,10 @@
           <el-checkbox v-model="form.menuCheckStrictly" @change="handleCheckedTreeConnect($event, 'menu')">父子联动</el-checkbox>
           <el-tree
               class="tree-border"
-              :data="menuOptions"
+              :data="role_menuData"
               show-checkbox
-              ref="menu"
-              node-key="id"
+              ref="menuName"
+              node-key="menuId"
               :check-strictly="!form.menuCheckStrictly"
               empty-text="加载中，请稍候"
               :props="defaultProps"
@@ -176,6 +176,7 @@
 </template>
 
 <script>
+import { getRoleMenu } from "@/api/system/role";
 export default {
   data() {
     return {
@@ -214,6 +215,14 @@ export default {
       },
       options: [],
       value1: [],
+
+      menuExpand: false,
+      menuNodeAll: false,
+
+      defaultProps: {
+        children: "children",
+        label: "menuName"
+      },
     }
   },
   methods: {
@@ -279,7 +288,6 @@ export default {
         })
       })
 
-
     },
 
     getRoleMenu: function (id) {
@@ -312,6 +320,7 @@ export default {
       })
 
     },
+   //获取角色列表
     getList(){
       capis.getRole({
 
@@ -319,16 +328,14 @@ export default {
         this.tableData=res.datas
       })
     },
+    //编辑角色
     editRoleDialog(id){
       this.dialogTableVisible_edit = true
-      capis.getRole({
+
+      getRoleMenu({
         id:id
       }).then(res=>{
-        this.form.id=res.datas[0].id
-        this.form.name=res.datas[0].name
-        this.form.des=res.datas[0].description
-        this.form.order=res.datas[0].order
-        this.form.remark=res.datas[0].remark
+        this.role_menuData=res.datas.menus
       })
     },
     addRole(){

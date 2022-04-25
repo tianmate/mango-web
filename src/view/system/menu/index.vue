@@ -9,16 +9,16 @@
           @keyup.enter.native="handleQuery"
         />
       </el-form-item>
-      <el-form-item label="状态" prop="status">
-        <el-select v-model="queryParams.status" placeholder="菜单状态" clearable>
-<!--          <el-option-->
-<!--            v-for="dict in dict.type.sys_normal_disable"-->
-<!--            :key="dict.value"-->
-<!--            :label="dict.label"-->
-<!--            :value="dict.value"-->
-<!--          />-->
-        </el-select>
-      </el-form-item>
+<!--      <el-form-item label="状态" prop="status">-->
+<!--        <el-select v-model="queryParams.status" placeholder="菜单状态" clearable>-->
+<!--&lt;!&ndash;          <el-option&ndash;&gt;-->
+<!--&lt;!&ndash;            v-for="dict in dict.type.sys_normal_disable"&ndash;&gt;-->
+<!--&lt;!&ndash;            :key="dict.value"&ndash;&gt;-->
+<!--&lt;!&ndash;            :label="dict.label"&ndash;&gt;-->
+<!--&lt;!&ndash;            :value="dict.value"&ndash;&gt;-->
+<!--&lt;!&ndash;          />&ndash;&gt;-->
+<!--        </el-select>-->
+<!--      </el-form-item>-->
       <el-form-item>
         <el-button type="primary" icon="el-icon-search" size="mini" @click="handleQuery">搜索</el-button>
         <el-button icon="el-icon-refresh" size="mini" @click="resetQuery">重置</el-button>
@@ -62,12 +62,38 @@
 <!--        </template>-->
       </el-table-column>
       <el-table-column prop="orderNum" label="排序" width="60"></el-table-column>
-      <el-table-column prop="perms" label="权限标识" :show-overflow-tooltip="true"></el-table-column>
-      <el-table-column prop="component" label="组件路径" :show-overflow-tooltip="true"></el-table-column>
-      <el-table-column prop="status" label="状态" width="80">
-<!--        <template slot-scope="scope">-->
-<!--          <dict-tag :options="dict.type.sys_normal_disable" :value="scope.row.status"/>-->
-<!--        </template>-->
+<!--      <el-table-column prop="perms" label="权限标识" :show-overflow-tooltip="true"></el-table-column>-->
+      <el-table-column prop="component" label="组件路径" :show-overflow-tooltip="true" width="180"></el-table-column>
+      <el-table-column prop="path" label="路由地址" :show-overflow-tooltip="true" width="180"></el-table-column>
+      <el-table-column
+          prop="status"
+          label="状态"
+          width="80">
+        <template slot-scope="scoped">
+          <el-switch
+              v-model="scoped.row.status"
+              active-color="#13ce66"
+              inactive-color="#ff4949"
+              :active-value="0"
+              :inactive-value="1"
+              @change="changeInformationStatus($event, scoped.row.menuId, scoped.column)">
+          </el-switch>
+        </template>
+      </el-table-column>
+      <el-table-column
+          prop="visible"
+          label="是否显示"
+          width="80">
+        <template slot-scope="scoped">
+          <el-switch
+              v-model="scoped.row.visible"
+              active-color="#13ce66"
+              inactive-color="#ff4949"
+              :active-value="0"
+              :inactive-value="1"
+              @change="changeInformationStatus($event, scoped.row.menuId, scoped.column)">
+          </el-switch>
+        </template>
       </el-table-column>
       <el-table-column label="创建时间" align="center" prop="createTime">
         <template slot-scope="scope">
@@ -191,15 +217,15 @@
             </el-form-item>
           </el-col>
           <el-col :span="12" v-if="form.menuType != 'M'">
-            <el-form-item>
-              <el-input v-model="form.perms" placeholder="请输入权限标识" maxlength="100" />
-              <span slot="label">
-                <el-tooltip content="控制器中定义的权限字符，如：@PreAuthorize(`@ss.hasPermi('system:user:list')`)" placement="top">
-                <i class="el-icon-question"></i>
-                </el-tooltip>
-                权限字符
-              </span>
-            </el-form-item>
+<!--            <el-form-item>-->
+<!--              <el-input v-model="form.perms" placeholder="请输入权限标识" maxlength="100" />-->
+<!--              <span slot="label">-->
+<!--                <el-tooltip content="控制器中定义的权限字符，如：@PreAuthorize(`@ss.hasPermi('system:user:list')`)" placement="top">-->
+<!--                <i class="el-icon-question"></i>-->
+<!--                </el-tooltip>-->
+<!--                权限字符-->
+<!--              </span>-->
+<!--            </el-form-item>-->
           </el-col>
           <el-col :span="12" v-if="form.menuType == 'C'">
             <el-form-item>
@@ -226,40 +252,40 @@
               </el-radio-group>
             </el-form-item>
           </el-col>
-          <el-col :span="12" v-if="form.menuType != 'F'">
-            <el-form-item>
-              <span slot="label">
-                <el-tooltip content="选择隐藏则路由将不会出现在侧边栏，但仍然可以访问" placement="top">
-                <i class="el-icon-question"></i>
-                </el-tooltip>
-                显示状态
-              </span>
-<!--              <el-radio-group v-model="form.visible">-->
-<!--                <el-radio-->
-<!--                  v-for="dict in dict.type.sys_show_hide"-->
-<!--                  :key="dict.value"-->
-<!--                  :label="dict.value"-->
-<!--                >{{dict.label}}</el-radio>-->
-<!--              </el-radio-group>-->
-            </el-form-item>
-          </el-col>
-          <el-col :span="12" v-if="form.menuType != 'F'">
-            <el-form-item>
-              <span slot="label">
-                <el-tooltip content="选择停用则路由将不会出现在侧边栏，也不能被访问" placement="top">
-                <i class="el-icon-question"></i>
-                </el-tooltip>
-                菜单状态
-              </span>
-<!--              <el-radio-group v-model="form.status">-->
-<!--                <el-radio-->
-<!--                  v-for="dict in dict.type.sys_normal_disable"-->
-<!--                  :key="dict.value"-->
-<!--                  :label="dict.value"-->
-<!--                >{{dict.label}}</el-radio>-->
-<!--              </el-radio-group>-->
-            </el-form-item>
-          </el-col>
+<!--          <el-col :span="12" v-if="form.menuType != 'F'">-->
+<!--            <el-form-item>-->
+<!--              <span slot="label">-->
+<!--                <el-tooltip content="选择隐藏则路由将不会出现在侧边栏，但仍然可以访问" placement="top">-->
+<!--                <i class="el-icon-question"></i>-->
+<!--                </el-tooltip>-->
+<!--                显示状态-->
+<!--              </span>-->
+<!--&lt;!&ndash;              <el-radio-group v-model="form.visible">&ndash;&gt;-->
+<!--&lt;!&ndash;                <el-radio&ndash;&gt;-->
+<!--&lt;!&ndash;                  v-for="dict in dict.type.sys_show_hide"&ndash;&gt;-->
+<!--&lt;!&ndash;                  :key="dict.value"&ndash;&gt;-->
+<!--&lt;!&ndash;                  :label="dict.value"&ndash;&gt;-->
+<!--&lt;!&ndash;                >{{dict.label}}</el-radio>&ndash;&gt;-->
+<!--&lt;!&ndash;              </el-radio-group>&ndash;&gt;-->
+<!--            </el-form-item>-->
+<!--          </el-col>-->
+<!--          <el-col :span="12" v-if="form.menuType != 'F'">-->
+<!--            <el-form-item>-->
+<!--              <span slot="label">-->
+<!--                <el-tooltip content="选择停用则路由将不会出现在侧边栏，也不能被访问" placement="top">-->
+<!--                <i class="el-icon-question"></i>-->
+<!--                </el-tooltip>-->
+<!--                菜单状态-->
+<!--              </span>-->
+<!--&lt;!&ndash;              <el-radio-group v-model="form.status">&ndash;&gt;-->
+<!--&lt;!&ndash;                <el-radio&ndash;&gt;-->
+<!--&lt;!&ndash;                  v-for="dict in dict.type.sys_normal_disable"&ndash;&gt;-->
+<!--&lt;!&ndash;                  :key="dict.value"&ndash;&gt;-->
+<!--&lt;!&ndash;                  :label="dict.value"&ndash;&gt;-->
+<!--&lt;!&ndash;                >{{dict.label}}</el-radio>&ndash;&gt;-->
+<!--&lt;!&ndash;              </el-radio-group>&ndash;&gt;-->
+<!--            </el-form-item>-->
+<!--          </el-col>-->
         </el-row>
       </el-form>
       <div slot="footer" class="dialog-footer">
@@ -435,9 +461,21 @@ export default {
         }
       });
     },
+    // 改变菜单状态
+    changeInformationStatus(value,  id , { property }){
+      let parm=property
+      let parms={
+        menuId:id,
+        [parm]:value
+      }
+      updateMenu(
+          parms
+      )
+    },
     /** 删除按钮操作 */
     handleDelete(row) {
       this.$modal.confirm('是否确认删除名称为"' + row.menuName + '"的数据项？').then(function() {
+        console.log()
         return delMenu(row.menuId);
       }).then(() => {
         this.getList();
