@@ -1,6 +1,7 @@
 import router from './router'
 import { getRouters } from '@/api/menu'
 import { Message } from 'element-ui'
+import store from './store'
 import NProgress from 'nprogress'
 import 'nprogress/nprogress.css'
 import { getToken } from './utils/auth'
@@ -56,27 +57,35 @@ let routers=[
 router.beforeEach((to, from, next) => {
 
     if (getToken()){
-        if (!getRouter) {//不加这个判断，路由会陷入死循环
-            if (!getObjArr('router')) {
+
+        if (store.getters.roles.length === 0){
 
                 if (to.path === '/login') {
                     next({ path: '/' })
                     NProgress.done()
                 } else {
-                    routerGo(to, next)//执行路由跳转方法
+
+                    store.dispatch('GetInfo').then(() => {
+                 //   routerGo(to, next)//执行路由跳转方法
+                    store.dispatch('GenerateRoutes').then(accessRoutes => {
+                        // 根据roles权限生成可访问的路由表
+                        //  router.addRoutes(accessRoutes) // 动态添加可访问路由表
+                        next({ ...to, replace: true }) // hack方法 确保addRoutes已完成
+                    }).catch(err => {
+                        store.dispatch('LogOut').then(() => {
+                            Message.error(err)
+                            next({ path: '/' })
+                        })
+                    })
                 }
+                    )}
                // getRouter = routers//后台拿到路由
                 //   saveObjArr('router', getRouter) //存储路由到localStorage
 
-
-
-            } else {//从localStorage拿到了路由
-                getRouter = getObjArr('router')//拿到路由
-                routerGo(to, next)
-            }
-        } else {
+        }else {
             next()
         }
+
     }else {
         // 没有token
         if (whiteList.indexOf(to.path) !== -1) {

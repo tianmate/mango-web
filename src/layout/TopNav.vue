@@ -23,7 +23,7 @@
 
 <script>
 // import { removeToken } from "../utils/token";
-import tagsView from './/TagsView/index';
+import tagsView from './TagsView/index';
 export default {
   data() {
     return {

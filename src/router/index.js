@@ -1,11 +1,11 @@
 //保存文件的路由器
-import VueRouter from 'vue-router'
+import Router from 'vue-router'
 
 import Vue from "vue";
-Vue.use(VueRouter)
+Vue.use(Router)
 import Layout from '@/layout'
 
-const routes = [
+export const constantRoutes = [
     {
         path: '/login',
         component: () => import('../view/login')
@@ -50,17 +50,17 @@ const routes = [
 ]
 
 // 防止连续点击多次路由报错
-let routerPush = VueRouter.prototype.push;
-VueRouter.prototype.push = function push(location) {
+let routerPush = Router.prototype.push;
+Router.prototype.push = function push(location) {
     return routerPush.call(this, location).catch(err => err)
 }
 
-const router = new VueRouter({
+export default new Router({
     mode: 'history',
     scrollBehavior: () => ({ y: 0 }),
-    routes
+    routes: constantRoutes
 });
 
 
 
-export default router
+// export default constantRoutes

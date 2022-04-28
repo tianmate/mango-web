@@ -4,7 +4,7 @@
 
     <el-row :gutter="10" class="mb8">
       <el-col :span="1.5">
-        <el-button type="primary" plain class="add-btn" icon="el-icon-plus" @click="dialogTableVisible_add = true" size="mini">增加角色</el-button>
+        <el-button type="primary" plain class="add-btn" icon="el-icon-plus" @click="addRoleDialog()" size="mini">增加角色</el-button>
       </el-col>
     </el-row>
   <el-table
@@ -75,14 +75,37 @@
     </el-table-column>
   </el-table>
 
-    <el-dialog title="新增角色" :visible.sync="dialogTableVisible_add">
-      <el-form :model="form_add">
+    <el-dialog title="新增角色" :visible.sync="dialogTableVisible_add" width="500px">
+      <el-form :model="form_add" label-width="100px">
         <el-form-item label="角色名称" :label-width="formLabelWidth">
           <el-input v-model="form_add.name" autocomplete="off"></el-input>
         </el-form-item>
         <el-form-item label="角色描述" :label-width="formLabelWidth">
-          <el-input v-model="form_add.des" autocomplete="off"></el-input>
+          <el-input v-model="form_add.description" autocomplete="off"></el-input>
         </el-form-item>
+        <el-form-item label="排序" :label-width="formLabelWidth">
+          <el-input v-model="form_add.order" autocomplete="off"></el-input>
+        </el-form-item>
+
+        <el-form-item label="菜单权限">
+          <el-checkbox v-model="menuExpand" @change="handleCheckedTreeExpand($event, 'menu')">展开/折叠</el-checkbox>
+          <el-checkbox v-model="menuNodeAll" @change="handleCheckedTreeNodeAll($event, 'menu')">全选/全不选</el-checkbox>
+<!--          <el-checkbox v-model="form.menuCheckStrictly" @change="handleCheckedTreeConnect($event, 'menu')">父子联动</el-checkbox>-->
+          <el-tree
+              class="tree-border"
+              :data="menuData"
+              show-checkbox
+              ref="menu"
+              node-key="menuId"
+              empty-text="加载中，请稍候"
+              :props="defaultProps"
+          ></el-tree>
+        </el-form-item>
+
+        <el-form-item label="备注" :label-width="formLabelWidth">
+          <el-input v-model="form_add.remark" autocomplete="off"></el-input>
+        </el-form-item>
+
       </el-form>
       <div slot="footer" class="dialog-footer">
         <el-button @click="dialogTableVisible_add = false">取 消</el-button>
@@ -96,7 +119,7 @@
           <el-input v-model="form.name" autocomplete="off"></el-input>
         </el-form-item>
         <el-form-item label="角色描述" :label-width="formLabelWidth">
-          <el-input v-model="form.des" autocomplete="off"></el-input>
+          <el-input v-model="form.description" autocomplete="off"></el-input>
         </el-form-item>
         <el-form-item label="排序" :label-width="formLabelWidth">
           <el-input v-model="form.order" autocomplete="off"></el-input>
@@ -105,14 +128,14 @@
         <el-form-item label="菜单权限">
           <el-checkbox v-model="menuExpand" @change="handleCheckedTreeExpand($event, 'menu')">展开/折叠</el-checkbox>
           <el-checkbox v-model="menuNodeAll" @change="handleCheckedTreeNodeAll($event, 'menu')">全选/全不选</el-checkbox>
-          <el-checkbox v-model="form.menuCheckStrictly" @change="handleCheckedTreeConnect($event, 'menu')">父子联动</el-checkbox>
+<!--          <el-checkbox v-model="form.menuCheckStrictly" @change="handleCheckedTreeConnect($event, 'menu')">父子联动</el-checkbox>-->
           <el-tree
               class="tree-border"
-              :data="role_menuData"
+              :data="menuData"
               show-checkbox
-              ref="menuName"
+              ref="menu"
               node-key="menuId"
-              :check-strictly="!form.menuCheckStrictly"
+
               empty-text="加载中，请稍候"
               :props="defaultProps"
           ></el-tree>
@@ -128,55 +151,13 @@
       </div>
     </el-dialog>
 
-    <el-dialog title="菜单管理" :visible.sync="dialogTableVisible_menu">
-      <el-button type="primary" class="add-role-btn" @click="addMenuDialog()">增加菜单</el-button>
-      <el-table :data="role_menuData.menus">
-
-        <el-table-column type="index" label="id" width="150"></el-table-column>
-        <el-table-column property="menuName" label="菜单名称" width="200"></el-table-column>
-
-<!--        <el-table-column-->
-<!--            prop="del"-->
-<!--            label="是否删除">-->
-<!--          <template slot-scope="scoped">-->
-<!--            <el-switch-->
-<!--                v-model="scoped.row.del"-->
-<!--                active-color="#13ce66"-->
-<!--                inactive-color="#ff4949"-->
-<!--                :active-value="0"-->
-<!--                :inactive-value="1"-->
-<!--                @change="removeRoleMenu($event, scoped.row.voId, scoped.column)">-->
-<!--            </el-switch>-->
-
-<!--          </template>-->
-<!--        </el-table-column>-->
-
-      </el-table>
-    </el-dialog>
-
-    <el-dialog title="新增菜单" :visible.sync="dialogTableVisible_menu_add">
-
-      <el-select v-model="value1" multiple placeholder="请选择">
-        <el-option
-            v-for="item in options"
-            :key="item.id"
-            :label="item.name"
-            :value="item.id">
-        </el-option>
-      </el-select>
-
-      <div slot="footer" class="dialog-footer">
-        <el-button @click="dialogTableVisible_menu_add = false">取 消</el-button>
-        <el-button type="primary" @click="add_menu()">确 定</el-button>
-      </div>
-    </el-dialog>
   </div>
 
 
 </template>
 
 <script>
-import { getRoleMenu } from "@/api/system/role";
+import { getRoleMenu,AllTree,editRole,addRole} from "@/api/system/role";
 export default {
   data() {
     return {
@@ -184,18 +165,19 @@ export default {
       form: {
         id:'',
         name:'',
-        des: '',
+        description: '',
         order: '',
         remark: ''
       },
       form_add: {
         id:'',
         name:'',
-        des: '',
+        description: '',
         order: '',
         remark: ''
       },
       role_menuData:[],
+      menuData:[],
       dialogTableVisible_add: false,
       dialogTableVisible_edit: false,
       formLabelWidth: '120px',
@@ -226,80 +208,14 @@ export default {
     }
   },
   methods: {
-    add_menu(){
-      console.log(this.value1)
-      var role={
-       "id":this.select_add_menu_role_id
+    // 表单重置
+    reset() {
+      if (this.$refs.menu != undefined) {
+        this.$refs.menu.setCheckedKeys([]);
       }
-      var menuList=[]
-      var menu;
-      for (let i = 0; i < this.value1.length; i++) {
-        menu={
-          "id":this.value1[i]
-        }
-        menuList.push(menu)
-      }
-      var menus={
-        role,
-        "menus":menuList
-      }
-      capis.addRoleMenu(
-        menus
-      ).then(res=>{
-        if (res.code==200){
-          this.$message.success("操作成功");
-          this.dialogTableVisible_menu_add = false
-          this.getRoleMenu()
-        }
-      })
 
     },
 
-    addMenuDialog(){
-      this.dialogTableVisible_menu_add=true
-      var allMenu=[];
-      var neadMenu=[];
-      capis.getMenu({}).then(res=>{
-
-        allMenu=res.datas
-
-        capis.getRoleMenu({
-          id:this.select_add_menu_role_id
-        }).then(res=>{
-
-          neadMenu=res.datas
-
-        //  console.log(allMenu)
-         // console.log(neadMenu[0].menu)
-          var f=[];
-
-            for (let j=0;j<neadMenu.length;j++){
-              if (neadMenu[0].menu!=null){
-                f=allMenu.filter(item=>item.id==neadMenu[j].menu.id);
-              }
-
-
-              allMenu.splice(f,1)
-            }
-
-
-
-          this.options=allMenu;
-        })
-      })
-
-    },
-
-    getRoleMenu: function (id) {
-      this.select_add_menu_role_id=id
-      this.dialogTableVisible_menu = true
-
-      capis.getRoleMenu({
-        id:id
-      }).then(res=>{
-        this.role_menuData=res.datas
-      })
-    },
     //更新角色
     changeInformationStatus(value, { id }, { property }) {
       let parm=property
@@ -312,14 +228,7 @@ export default {
       )
 
     },
-    //删除角色菜单
-    removeRoleMenu(value, voId , { property }) {
-      capis.removeRoleMenu({
-        voId:voId,
-        del:value
-      })
 
-    },
    //获取角色列表
     getList(){
       capis.getRole({
@@ -328,59 +237,115 @@ export default {
         this.tableData=res.datas
       })
     },
-    //编辑角色
+
+    //增加角色弹窗
+    addRoleDialog(){
+      this.dialogTableVisible_add = true
+      this.reset();
+      AllTree({}).then(res=> {
+        this.menuData = res.datas
+
+      })
+
+    },
+
+    //编辑角色弹窗
     editRoleDialog(id){
       this.dialogTableVisible_edit = true
+      this.reset();
+      AllTree({}).then(res=>{
+        this.menuData=res.datas
 
+      //获取角色菜单
       getRoleMenu({
         id:id
       }).then(res=>{
-        this.role_menuData=res.datas.menus
+        this.form=res.datas
+        let checkedKeys = []
+
+        for (let i = 0; i < res.datas.menus.length; i++) {
+
+          checkedKeys.push(res.datas.menus[i].menuId)
+
+        }
+
+        //加已有的数据添加到下拉列表中
+        checkedKeys.forEach((v) => {
+          this.$nextTick(()=>{
+            console.log(v)
+            this.$refs.menu.setChecked(v, true ,false);
+          })
+        })
       })
+
+      })
+
     },
+
+    // 所有菜单节点数据
+    getMenuAllCheckedKeys() {
+      // 目前被选中的菜单节点
+      let checkedKeys = this.$refs.menu.getCheckedKeys();
+      // 半选中的菜单节点
+      let halfCheckedKeys = this.$refs.menu.getHalfCheckedKeys();
+      checkedKeys.unshift.apply(checkedKeys, halfCheckedKeys);
+      return checkedKeys;
+    },
+    //增加角色
     addRole(){
-      capis.addRole({
+      var menus=[];
+      this.getMenuAllCheckedKeys().filter(item=>{
+        menus.push({"menuId":item})
+      })
+      addRole({
         name:this.form_add.name,
-        description:this.form_add.des
+        description:this.form_add.description,
+        order:this.form_add.order,
+        remark:this.form_add.remark,
+        menus:menus
       }).then(res=>{
         this.getList();
         this.dialogTableVisible_add = false
       })
     },
+    //编辑角色
     editRole(){
-      capis.editRole({
+      console.log(this.getMenuAllCheckedKeys());
+      console.log(this.form)
+      var menus=[];
+      this.getMenuAllCheckedKeys().filter(item=>{
+        menus.push({"menuId":item})
+      })
+      editRole({
         id:this.form.id,
         name:this.form.name,
-        description: this.form.des,
-        order: this.form.order,
-        remark:this.form.remark
+        description:this.form.description,
+        remark:this.form.remark,
+        order:this.form.order,
+        menus:menus
       }).then(res=>{
-        if (res.code==200){
-          this.dialogTableVisible_edit = false
-          this.$message.success("操作成功");
-          this.getList();
-        }
+        this.dialogTableVisible_edit = false
+        this.getList()
       })
+
     },
 
 // 树权限（展开/折叠）
     handleCheckedTreeExpand(value, type) {
       if (type == 'menu') {
-        let treeList = this.menuOptions;
+        let treeList = this.menuData;
+        console.log(treeList)
         for (let i = 0; i < treeList.length; i++) {
-          this.$refs.menu.store.nodesMap[treeList[i].id].expanded = value;
-        }
-      } else if (type == 'dept') {
-        let treeList = this.deptOptions;
-        for (let i = 0; i < treeList.length; i++) {
-          this.$refs.dept.store.nodesMap[treeList[i].id].expanded = value;
+          // console.log(treeList[i].id)
+          this.$refs.menu.store.nodesMap[treeList[i].menuId].expanded = value;
         }
       }
+
     },
     // 树权限（全选/全不选）
     handleCheckedTreeNodeAll(value, type) {
       if (type == 'menu') {
-        this.$refs.menu.setCheckedNodes(value ? this.menuOptions: []);
+        this.$refs.menu.setCheckedNodes(value ? this.menuData: []);
       } else if (type == 'dept') {
         this.$refs.dept.setCheckedNodes(value ? this.deptOptions: []);
       }
@@ -388,6 +353,7 @@ export default {
     // 树权限（父子联动）
     handleCheckedTreeConnect(value, type) {
       if (type == 'menu') {
+        console.log(value)
         this.form.menuCheckStrictly = value ? true: false;
       } else if (type == 'dept') {
         this.form.deptCheckStrictly = value ? true: false;
@@ -396,8 +362,6 @@ export default {
   },
   created() {
    this.getList();
-  // console.log(this.$store.state.userInfo)
-
   },
 
 

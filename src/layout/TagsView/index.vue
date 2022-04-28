@@ -47,9 +47,9 @@ export default {
     visitedViews() {
       return this.$store.state.tagsView.visitedViews
     },
-    // routes() {
-    //   return this.$store.state.permission.routes
-    // },
+    routes() {
+      return this.$store.state.permission.routes
+    },
     // theme() {
     //   return this.$store.state.settings.theme;
     // }
@@ -70,6 +70,7 @@ export default {
   mounted() {
     this.initTags()
     this.addTags()
+
   },
   methods: {
     isActive(route) {
@@ -121,6 +122,8 @@ export default {
       return tags
     },
     initTags() {
+      console.log("初始化标签时的路由")
+      console.log(this.routes)
       const affixTags = this.affixTags = this.filterAffixTags(this.routes)
       for (const tag of affixTags) {
         // Must have tag name

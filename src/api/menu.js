@@ -8,10 +8,11 @@ export const getRouters = () => {
   })
 }
 
-// 获取菜单树
+// 获取菜单树根据角色id
 export const tree = () => {
   return request({
     url: '/system/menu/tree',
     method: 'post'
   })
 }
+

@@ -11,20 +11,20 @@ export function listRole(query) {
 }
 
 // 编辑菜单
-export function editRole(query) {
+export function editRole(data) {
     return request({
-        url: '/system/role/update',
+        url: '/system/role/edit',
         method: 'post',
-        params: query
+        data: data
     })
 }
 
-// 增加菜单
-export function addRole(query) {
+// 增加角色
+export function addRole(data) {
     return request({
         url: '/system/role/add',
         method: 'post',
-        params: query
+        data: data
     })
 }
 
@@ -37,3 +37,10 @@ export function getRoleMenu(data) {
     })
 }
 
+// 获取菜单树
+export const AllTree = () => {
+    return request({
+        url: '/system/menu/AllTree',
+        method: 'get'
+    })
+}

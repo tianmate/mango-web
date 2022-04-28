@@ -5,7 +5,7 @@
            <h1>芒果管理系统</h1>
         </div>
 
-      <el-menu router class="menu-list"  background-color="#334157" text-color="#ffffff">
+      <el-menu  :default-active="activeMenu" router class="menu-list"  background-color="#334157" text-color="#ffffff">
 
         <tmeplate v-for="menu in menus" :key="menu.menuId" >
           <!--        多级菜单-->
@@ -38,6 +38,7 @@
 
 <script>
 import { tree } from "@/api/menu";
+import { mapGetters} from "vuex";
     export default {
         data() {
             return {
@@ -46,6 +47,22 @@ import { tree } from "@/api/menu";
                 imgShow: true
             };
         },
+
+      computed: {
+        // ...mapState(["settings"]),
+        ...mapGetters(["sidebarRouters", "sidebar"]),
+        activeMenu() {
+          const route = this.$route;
+          const { meta, path } = route;
+          // if set path, the sidebar will highlight the path you set
+          if (meta.activeMenu) {
+            return meta.activeMenu;
+          }
+          return path;
+        },
+
+      },
+
         created() {
 
           tree({id: Cookies.get('userInfo')}).then(

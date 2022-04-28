@@ -3,7 +3,7 @@
   <el-container class="index-container">
     <!--    左侧菜单栏-->
     <el-aside class="aside" width="200px">
-      <side-bar></side-bar>
+      <left-nav></left-nav>
     </el-aside>
 
     <!--  内容区-->
@@ -27,13 +27,13 @@
 </template>
 
 <script>
-import SideBar from '../layout/LeftNav';
+import LeftNav from '../layout/LeftNav';
 import TopNav from '../layout/TopNav';
 export default {
 name: "index",
 
   components: {
-    SideBar,
+    LeftNav,
     TopNav,
   },
 }

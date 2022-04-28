@@ -67,6 +67,7 @@ export default {
             if (res.code === 200) {
               that.$message.success("登录成功");
               that.$router.push({path: "/index"});
+              that.$router.push({path: "/index"});
               //保存到cookie
               Cookies.set('accessToken', res.datas.token);
               Cookies.set('userInfo', res.datas.userInfo.id);
