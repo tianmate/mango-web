@@ -2,7 +2,7 @@
 <template>
     <div >
         <div class="logo-box" v-show="imgShow" >
-           <h1>芒果管理系统</h1>
+           <h1>{{systemName}}管理系统</h1>
         </div>
 
       <el-menu  :default-active="activeMenu" router class="menu-list"  background-color="#334157" text-color="#ffffff">
@@ -38,10 +38,12 @@
 
 <script>
 import { tree } from "@/api/menu";
+import { getConfig} from "@/api/login";
 import { mapGetters} from "vuex";
     export default {
         data() {
             return {
+              systemName:getConfig(),
                 collapsed: false,
                 menus: [],
                 imgShow: true

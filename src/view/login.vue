@@ -6,7 +6,7 @@
         <img class="icon" src="../assets/img/icon.jpg" />
       </div>
 
-      <div class="title">芒果管理系统</div>
+      <div class="title">{{systemName}}管理系统</div>
 
       <div class="inputs" >
 
@@ -35,13 +35,15 @@
 </template>
 
 <script>
+import { login,createImageCode ,getConfig} from "@/api/login";
 export default {
 
   name: "login",
 
   data() {
     return {
-      username: 'admin',
+      systemName:getConfig(),
+      username: 'root',
       password: '123456',
       code: '',
       uuid: '',
@@ -58,7 +60,7 @@ export default {
     login: function () {
 
           const that = this;
-          capis.login({
+      login({
             username: that.username,
             password: that.password,
             code: that.inputCode,
@@ -86,7 +88,7 @@ export default {
     },
     createImageCode(){
       const that = this;
-      capis.createImageCode({}).then(res =>{
+      createImageCode({}).then(res =>{
         console.log(res.img)
         this.code=res.img
         this.uuid=res.uuid
@@ -213,47 +215,6 @@ button:hover {
   position: absolute;
   right: 70px;
   bottom: 150px;
-}
-
-
-
-
-
-/*登录盒子*/
-.login-box{
-  height: 350px;
-  width: 300px;
-  /*margin: 100px auto;*/
-  border: rgb(0, 81, 166) 3px solid;
-  border-radius: 10px;
-
-  position: absolute;
-  left: 50%;
-  top: 30%;
-  transform: translate(-50%, -50%);
-
-
-}
-/*!*标题*!*/
-/*.title{*/
-/*  !*width: 100%;*!*/
-/*  !*height: 50px;*!*/
-/*  position: relative;*/
-
-/*  margin: 50px 50px;*/
-/*}*/
-
-/*登录框*/
-.login-item{
-  width: 80%;
-  margin: 20px 23px;
-}
-
-/*登录按钮*/
-.btn-login{
-  width: 80%;
-  margin: 10px 23px;
-  border-radius: 5px;
 }
 
 /*图片验证码*/

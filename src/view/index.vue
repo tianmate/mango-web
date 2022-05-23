@@ -1,7 +1,7 @@
 <template>
   <div class="root">
 
-<h>芒果管理系统</h>
+<h>系统首页</h>
 
 
     </div>
