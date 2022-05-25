@@ -1,4 +1,4 @@
-# mango公众号运营管理系统前端
+# mango管理系统前端
 
 #### 介绍
 mango管理系统前端，基于Vue+axios+ElementUI
