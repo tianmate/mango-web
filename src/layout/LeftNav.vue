@@ -38,12 +38,12 @@
 
 <script>
 import { tree } from "@/api/menu";
-import { getConfig} from "@/api/login";
+import { getConfigInfo} from "@/api/config";
 import { mapGetters} from "vuex";
     export default {
         data() {
             return {
-              systemName:getConfig(),
+              systemName:'',
                 collapsed: false,
                 menus: [],
                 imgShow: true
@@ -72,6 +72,9 @@ import { mapGetters} from "vuex";
                 this.menus=response.datas
               }
           )
+          getConfigInfo().then(res=>{
+            this.systemName=res.datas.systemName
+          })
           //获取当前角色的菜单列表
           // capis.tree({
           //   id: Cookies.get('userInfo')

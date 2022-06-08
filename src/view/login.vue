@@ -14,9 +14,9 @@
 
         <input type="password"  v-model="password" name="password" placeholder="密码" />
 
-        <input type="password"  v-model="inputCode" name="password" class="code-input" placeholder="验证码" />
+        <input v-if="this.captchaEnable==true" type="password"  v-model="inputCode" name="password" class="code-input" placeholder="验证码" />
 
-        <div class="login-code"  @click="createImageCode">
+        <div class="login-code"  @click="createImageCode" v-if="this.captchaEnable==true">
           <img :src="code"
                class="login-code-img">
         </div>
@@ -36,13 +36,14 @@
 
 <script>
 import { login,createImageCode ,getConfig} from "@/api/login";
+import { getConfigInfo} from "@/api/config";
 export default {
 
   name: "login",
 
   data() {
     return {
-      systemName:getConfig(),
+      systemName:'',
       username: 'root',
       password: '123456',
       code: '',
@@ -55,6 +56,10 @@ export default {
 
   created() {
     this.createImageCode()
+    getConfigInfo().then(res=>{
+      this.captchaEnable=res.datas.captchaEnable,
+          this.systemName=res.datas.systemName
+    })
   },
   methods: {
     login: function () {
