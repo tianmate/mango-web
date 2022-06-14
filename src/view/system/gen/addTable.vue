@@ -183,7 +183,7 @@ export default {
       menus: [],
       // 表详细信息
       info: {
-        "packageName":"cn.sky1998.mongo.work",
+        "packageName":"cn.sky1998.mango.work",
         "moduleName":"work"
       }
     };
