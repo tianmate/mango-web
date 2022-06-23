@@ -260,22 +260,27 @@ export default {
       getRoleMenu({
         id:id
       }).then(res=>{
-        this.form=res.datas
-        let checkedKeys = []
+        if (res.datas!=null){
+          this.form=res.datas
+          let checkedKeys = []
 
-        for (let i = 0; i < res.datas.menus.length; i++) {
+          for (let i = 0; i < res.datas.menus.length; i++) {
 
-          checkedKeys.push(res.datas.menus[i].menuId)
+            checkedKeys.push(res.datas.menus[i].menuId)
+
+            //加已有的数据添加到下拉列表中
+            checkedKeys.forEach((v) => {
+              this.$nextTick(()=>{
+                console.log(v)
+                this.$refs.menu.setChecked(v, true ,false);
+              })
+            })
+          }
 
         }
 
-        //加已有的数据添加到下拉列表中
-        checkedKeys.forEach((v) => {
-          this.$nextTick(()=>{
-            console.log(v)
-            this.$refs.menu.setChecked(v, true ,false);
-          })
-        })
+
+
       })
 
       })

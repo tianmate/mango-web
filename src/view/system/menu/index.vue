@@ -65,6 +65,7 @@
 <!--      <el-table-column prop="perms" label="权限标识" :show-overflow-tooltip="true"></el-table-column>-->
       <el-table-column prop="component" label="组件路径" :show-overflow-tooltip="true" width="180"></el-table-column>
       <el-table-column prop="path" label="路由地址" :show-overflow-tooltip="true" width="180"></el-table-column>
+      <el-table-column prop="perms" label="权限标识" :show-overflow-tooltip="true" width="180"></el-table-column>
       <el-table-column
           prop="status"
           label="状态"
@@ -102,7 +103,7 @@
       </el-table-column>
       <el-table-column label="操作" align="center" class-name="small-padding fixed-width">
         <template slot-scope="scope">
-          <el-button 
+          <el-button
             size="mini"
             type="text"
             icon="el-icon-edit"
