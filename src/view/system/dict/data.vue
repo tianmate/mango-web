@@ -43,7 +43,6 @@
           icon="el-icon-plus"
           size="mini"
           @click="handleAdd"
-          v-hasPermi="['system:dict:add']"
         >新增</el-button>
       </el-col>
       <el-col :span="1.5">
@@ -54,7 +53,6 @@
           size="mini"
           :disabled="single"
           @click="handleUpdate"
-          v-hasPermi="['system:dict:edit']"
         >修改</el-button>
       </el-col>
       <el-col :span="1.5">
@@ -65,7 +63,6 @@
           size="mini"
           :disabled="multiple"
           @click="handleDelete"
-          v-hasPermi="['system:dict:remove']"
         >删除</el-button>
       </el-col>
       <el-col :span="1.5">
@@ -75,7 +72,6 @@
           icon="el-icon-download"
           size="mini"
           @click="handleExport"
-          v-hasPermi="['system:dict:export']"
         >导出</el-button>
       </el-col>
       <el-col :span="1.5">
@@ -101,11 +97,11 @@
       </el-table-column>
       <el-table-column label="字典键值" align="center" prop="dictValue" />
       <el-table-column label="字典排序" align="center" prop="dictSort" />
-      <el-table-column label="状态" align="center" prop="status">
-        <template slot-scope="scope">
-          <dict-tag :options="dict.type.sys_normal_disable" :value="scope.row.status"/>
-        </template>
-      </el-table-column>
+<!--      <el-table-column label="状态" align="center" prop="status">-->
+<!--        <template slot-scope="scope">-->
+<!--          <dict-tag :options="dict.type.sys_normal_disable" :value="scope.row.status"/>-->
+<!--        </template>-->
+<!--      </el-table-column>-->
       <el-table-column label="备注" align="center" prop="remark" :show-overflow-tooltip="true" />
       <el-table-column label="创建时间" align="center" prop="createTime" width="180">
         <template slot-scope="scope">
@@ -119,14 +115,12 @@
             type="text"
             icon="el-icon-edit"
             @click="handleUpdate(scope.row)"
-            v-hasPermi="['system:dict:edit']"
           >修改</el-button>
           <el-button
             size="mini"
             type="text"
             icon="el-icon-delete"
             @click="handleDelete(scope.row)"
-            v-hasPermi="['system:dict:remove']"
           >删除</el-button>
         </template>
       </el-table-column>
@@ -168,15 +162,15 @@
             ></el-option>
           </el-select>
         </el-form-item>
-        <el-form-item label="状态" prop="status">
-          <el-radio-group v-model="form.status">
-            <el-radio
-              v-for="dict in dict.type.sys_normal_disable"
-              :key="dict.value"
-              :label="dict.value"
-            >{{dict.label}}</el-radio>
-          </el-radio-group>
-        </el-form-item>
+<!--        <el-form-item label="状态" prop="status">-->
+<!--          <el-radio-group v-model="form.status">-->
+<!--            <el-radio-->
+<!--              v-for="dict in dict.type.sys_normal_disable"-->
+<!--              :key="dict.value"-->
+<!--              :label="dict.value"-->
+<!--            >{{dict.label}}</el-radio>-->
+<!--          </el-radio-group>-->
+<!--        </el-form-item>-->
         <el-form-item label="备注" prop="remark">
           <el-input v-model="form.remark" type="textarea" placeholder="请输入内容"></el-input>
         </el-form-item>
@@ -280,8 +274,8 @@ export default {
     /** 查询字典类型详细 */
     getType(dictId) {
       getType(dictId).then(response => {
-        this.queryParams.dictType = response.data.dictType;
-        this.defaultDictType = response.data.dictType;
+        this.queryParams.dictType = response.datas.dictType;
+        this.defaultDictType = response.datas.dictType;
         this.getList();
       });
     },
@@ -295,7 +289,7 @@ export default {
     getList() {
       this.loading = true;
       listData(this.queryParams).then(response => {
-        this.dataList = response.rows;
+        this.dataList = response.datas;
         this.total = response.total;
         this.loading = false;
       });
@@ -353,7 +347,7 @@ export default {
       this.reset();
       const dictCode = row.dictCode || this.ids
       getData(dictCode).then(response => {
-        this.form = response.data;
+        this.form = response.datas;
         this.open = true;
         this.title = "修改字典数据";
       });

@@ -59,7 +59,6 @@
           icon="el-icon-plus"
           size="mini"
           @click="handleAdd"
-          v-hasPermi="['system:dict:add']"
         >新增</el-button>
       </el-col>
       <el-col :span="1.5">
@@ -70,7 +69,6 @@
           size="mini"
           :disabled="single"
           @click="handleUpdate"
-          v-hasPermi="['system:dict:edit']"
         >修改</el-button>
       </el-col>
       <el-col :span="1.5">
@@ -81,7 +79,6 @@
           size="mini"
           :disabled="multiple"
           @click="handleDelete"
-          v-hasPermi="['system:dict:remove']"
         >删除</el-button>
       </el-col>
       <el-col :span="1.5">
@@ -91,7 +88,6 @@
           icon="el-icon-download"
           size="mini"
           @click="handleExport"
-          v-hasPermi="['system:dict:export']"
         >导出</el-button>
       </el-col>
       <el-col :span="1.5">
@@ -101,7 +97,6 @@
           icon="el-icon-refresh"
           size="mini"
           @click="handleRefreshCache"
-          v-hasPermi="['system:dict:remove']"
         >刷新缓存</el-button>
       </el-col>
       <right-toolbar :showSearch.sync="showSearch" @queryTable="getList"></right-toolbar>
@@ -136,14 +131,12 @@
             type="text"
             icon="el-icon-edit"
             @click="handleUpdate(scope.row)"
-            v-hasPermi="['system:dict:edit']"
           >修改</el-button>
           <el-button
             size="mini"
             type="text"
             icon="el-icon-delete"
             @click="handleDelete(scope.row)"
-            v-hasPermi="['system:dict:remove']"
           >删除</el-button>
         </template>
       </el-table-column>
@@ -192,7 +185,7 @@ import { listType, getType, delType, addType, updateType, refreshCache } from "@
 
 export default {
   name: "Dict",
-  dicts: ['sys_normal_disable'],
+   dicts: ['sys_normal_disable'],
   data() {
     return {
       // 遮罩层
@@ -244,7 +237,7 @@ export default {
     getList() {
       this.loading = true;
       listType(this.addDateRange(this.queryParams, this.dateRange)).then(response => {
-          this.typeList = response.rows;
+          this.typeList = response.datas;
           this.total = response.total;
           this.loading = false;
         }
@@ -294,7 +287,7 @@ export default {
       this.reset();
       const dictId = row.dictId || this.ids
       getType(dictId).then(response => {
-        this.form = response.data;
+        this.form = response.datas;
         this.open = true;
         this.title = "修改字典类型";
       });

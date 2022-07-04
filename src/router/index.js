@@ -45,6 +45,19 @@ export const constantRoutes = [
             },
         ]
     },
+    {
+        path: '/system/dict-data',
+        component: Layout,
+        hidden: true,
+        children: [
+            {
+                path: 'index/:dictId(\\d+)',
+                component: () => import('../view/system/dict/data'),
+                name: 'Data',
+                meta: { title: '字典数据', activeMenu: '/system/dict' }
+            }
+        ]
+    },
 
 
 ]

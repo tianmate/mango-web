@@ -35,6 +35,13 @@ Vue.use(directive)
 import Cookies from 'js-cookie';
 window.Cookies = Cookies;
 
+//字典
+// 字典标签组件
+import DictTag from '@/components/DictTag'
+// 字典数据组件
+import DictData from '@/components/DictData'
+Vue.component('DictTag', DictTag)
+DictData.install()
 
 //自定义封装接口
 import apis from "./network/api";
@@ -59,6 +66,7 @@ Vue.prototype.selectDictLabels = selectDictLabels
 Vue.prototype.handleTree = handleTree
 Vue.prototype.resetForm = resetForm
 Vue.prototype.$message = Message
+
 new Vue({
   router,
   store,
