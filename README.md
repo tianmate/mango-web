@@ -1,4 +1,4 @@
-# Mango框架前端
+﻿# Mango框架前端
 
 网上的框架五花八门，但无不有一个共同特点，集成了大量的组件，对于新手来说操作异常的繁琐。
 
@@ -28,7 +28,7 @@ Mango是一个后台管理系统，基于经典技术组合（Spring Boot、Spri
 
 **在线体验**
 
-- 代码下载：(<https://gitee.com/qingtengpai/mango.git>)
+- 后端代码下载：(<https://gitee.com/qingtengpai/mango.git>)
 - 前端代码下载：(https://gitee.com/qingtengpai/mango-web.git)
 
 **系统环境**
