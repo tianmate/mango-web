@@ -31,43 +31,56 @@
             </template>
           </el-table-column>
 
-          <el-table-column
-            label="物理类型"
-
-            min-width="10%"
-            :show-overflow-tooltip="true"
-          >
+          <el-table-column label="字段长度" min-width="10%">
             <template slot-scope="scope">
-              <el-select v-model="scope.row.columnType">
-                <el-option label="tinyint(4)" value="tinyint(4)" />
-                <el-option label="bigint(20)" value="bigint(20)" />
-                <el-option label="int" value="int" />
-                <el-option label="varchar(64)" value="varchar(64)" />
-                <el-option label="varchar(255)" value="varchar(255)" />
-                <el-option label="char(1)" value="char(1)" />
-                <el-option label="datetime" value="datetime" />
-                <el-option label="longblob" value="longblob" />
-              </el-select>
+              <el-input v-model="scope.row.columnComment"></el-input>
             </template>
           </el-table-column>
-<!--          <el-table-column label="Java类型" min-width="11%">-->
+
+          <el-table-column label="小数点" min-width="10%">
+            <template slot-scope="scope">
+              <el-input v-model="scope.row.columnComment"></el-input>
+            </template>
+          </el-table-column>
+
+<!--          <el-table-column-->
+<!--            label="物理类型"-->
+
+<!--            min-width="10%"-->
+<!--            :show-overflow-tooltip="true"-->
+<!--          >-->
 <!--            <template slot-scope="scope">-->
-<!--              <el-select v-model="scope.row.javaType">-->
-<!--                <el-option label="Long" value="Long" />-->
-<!--                <el-option label="String" value="String" />-->
-<!--                <el-option label="Integer" value="Integer" />-->
-<!--                <el-option label="Double" value="Double" />-->
-<!--                <el-option label="BigDecimal" value="BigDecimal" />-->
-<!--                <el-option label="Date" value="Date" />-->
-<!--                <el-option label="Boolean" value="Boolean" />-->
+<!--              <el-select v-model="scope.row.columnType">-->
+<!--                <el-option label="tinyint(4)" value="tinyint(4)" />-->
+<!--                <el-option label="bigint(20)" value="bigint(20)" />-->
+<!--                <el-option label="int" value="int" />-->
+<!--                <el-option label="varchar(64)" value="varchar(64)" />-->
+<!--                <el-option label="varchar(255)" value="varchar(255)" />-->
+<!--                <el-option label="char(1)" value="char(1)" />-->
+<!--                <el-option label="datetime" value="datetime" />-->
+<!--                <el-option label="longblob" value="longblob" />-->
 <!--              </el-select>-->
 <!--            </template>-->
 <!--          </el-table-column>-->
-<!--          <el-table-column label="java属性" min-width="10%">-->
-<!--            <template slot-scope="scope">-->
-<!--              <el-input v-model="scope.row.javaField"></el-input>-->
-<!--            </template>-->
-<!--          </el-table-column>-->
+          <el-table-column label="字段类型" min-width="11%">
+            <template slot-scope="scope">
+              <el-select v-model="scope.row.javaType">
+                <el-option label="String" value="String" />
+                <el-option label="Integer" value="Integer" />
+                <el-option label="Double" value="Double" />
+                <el-option label="Date" value="Date" />
+                <el-option label="Datetime" value="Datetime" />
+                <el-option label="BigDecimal" value="BigDecimal" />
+                <el-option label="Text" value="Text" />
+                <el-option label="Blod" value="Blod" />
+              </el-select>
+            </template>
+          </el-table-column>
+          <el-table-column label="java属性" min-width="10%">
+            <template slot-scope="scope">
+              <el-input v-model="scope.row.javaField"></el-input>
+            </template>
+          </el-table-column>
 
           <el-table-column label="插入" min-width="5%">
             <template slot-scope="scope">
