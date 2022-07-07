@@ -138,13 +138,13 @@
             @click="handleDelete(scope.row)"
 
           >删除</el-button>
-<!--          <el-button-->
-<!--            type="text"-->
-<!--            size="small"-->
-<!--            icon="el-icon-refresh"-->
-<!--            @click="handleSynchDb(scope.row)"-->
+          <el-button
+            type="text"
+            size="small"
+            icon="el-icon-refresh"
+            @click="handleSynchDb(scope.row)"
 
-<!--          >同步</el-button>-->
+          >同步</el-button>
           <el-button
             type="text"
             size="small"

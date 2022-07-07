@@ -275,7 +275,7 @@ export default {
           "tableId": '',
           "columnName": "",
           "columnComment": "",
-          "columnType": "varchar(64)",
+          "columnType": "",
           "javaType": "String",
           "javaField": "",
           "isPk": "0",
@@ -301,13 +301,12 @@ export default {
           "usableColumn": true
         })
       }else {
-        console.log(this.tables[0].tableId)
         this.columns.push({
           "columnId": '',
           "tableId": this.tables[0].tableId,
           "columnName": "",
           "columnComment": "",
-          "columnType": "varchar(64)",
+          "columnType": "",
           "javaType": "String",
           "javaField": "",
           "isPk": "0",
