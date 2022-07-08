@@ -115,6 +115,18 @@
       />
       <el-table-column label="创建时间" align="center" prop="createTime" width="160" />
       <el-table-column label="更新时间" align="center" prop="updateTime" width="160" />
+
+      <el-table-column label="是否同步" align="center" prop="ifSyn" width="160">
+        <template slot-scope="scoped">
+          <el-switch
+              v-model="scoped.row.ifSyn"
+              active-color="#13ce66"
+              inactive-color="#ff4949"
+              :active-value="1"
+              :inactive-value="0">
+          </el-switch>
+        </template>
+      </el-table-column>
       <el-table-column label="操作" align="center" class-name="small-padding fixed-width">
         <template slot-scope="scope">
           <el-button
@@ -142,9 +154,16 @@
             type="text"
             size="small"
             icon="el-icon-refresh"
-            @click="handleSynchDb(scope.row)"
+            @click="handleSynchDbFrom(scope.row)"
+          >从物理表同步</el-button>
 
-          >同步</el-button>
+          <el-button
+              type="text"
+              size="small"
+              icon="el-icon-refresh"
+              @click="handleSynchDbTo(scope.row)"
+          >同步到物理表</el-button>
+
           <el-button
             type="text"
             size="small"
@@ -209,7 +228,7 @@
 </template>
 
 <script>
-import { listTable, previewTable, delTable, createCode, synchDb ,createDbAndCode} from "@/api/tool/gen";
+import { listTable, previewTable, delTable, createCode, synchDbFrom, synchDbTo,createDbAndCode} from "@/api/tool/gen";
 import importTable from "./importTable";
 import hljs from "highlight.js/lib/highlight";
 import "highlight.js/styles/github-gist.css";
@@ -313,21 +332,29 @@ export default {
       //   this.$download.zip("/tool/gen/batchGenCode?tables=" + tableNames, "ruoyi");
       // }
     },
-    /** 同步数据库操作 */
-    handleSynchDb(row) {
+    /** 从物理表同步 */
+    handleSynchDbFrom(row) {
       const tableName = row.tableName;
-      this.$modal.confirm('确认要强制同步"' + tableName + '"表结构吗？').then(function() {
-        return synchDb(tableName);
+      this.$modal.confirm('将会从物理表强制同步到"' + tableName + '"表结构吗？').then(function() {
+        return synchDbFrom(tableName);
+      }).then(() => {
+        this.$modal.msgSuccess("同步成功");
+      }).catch(() => {});
+    },
+    /** 同步到物理表 */
+    handleSynchDbTo(row){
+      const tableName = row.tableName;
+      this.$modal.confirm('将会从物理表强制同步到"' + tableName + '"表结构吗？').then(function() {
+        return synchDbTo(tableName);
       }).then(() => {
         this.$modal.msgSuccess("同步成功");
       }).catch(() => {});
     },
     /** 打开导入表弹窗 */
     openImportTable() {
-      console.log(11)
-
+      this.$refs.import.show();
       //导入后生成数据库 直接在列表显示 可以判断是否数据库已经生成了 否则就不在显示生成数据库按钮
-     this.dialogFormVisible=true
+    // this.dialogFormVisible=true
     },
     /** 重置按钮操作 */
     resetQuery() {

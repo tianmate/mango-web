@@ -47,7 +47,7 @@
 </template>
 
 <script>
-// import { listDbTable, importTable } from "@/api/tool/gen";
+ import { listDbTable, importTable } from "@/api/tool/gen";
 export default {
   data() {
     return {
@@ -85,7 +85,7 @@ export default {
     getList() {
       listDbTable(this.queryParams).then(res => {
         if (res.code === 200) {
-          this.dbTableList = res.rows;
+          this.dbTableList = res.datas;
           this.total = res.total;
         }
       });

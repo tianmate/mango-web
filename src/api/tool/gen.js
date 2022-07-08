@@ -76,10 +76,17 @@ export function genCode(tableName) {
   })
 }
 
-// 同步数据库
-export function synchDb(tableName) {
+// 从物理表同步
+export function synchDbFrom(tableName) {
   return request({
-    url: '/gen/table/synchDb/' + tableName,
+    url: '/gen/table/synchDbFrom/' + tableName,
+    method: 'get'
+  })
+}
+//同步到物理表
+export function synchDbTo(tableName) {
+  return request({
+    url: '/gen/table/synchDbTo/' + tableName,
     method: 'get'
   })
 }
