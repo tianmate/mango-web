@@ -8,7 +8,7 @@ import './assets/css/reset.css'
 import './assets/css/base.css'
 import './assets/css/common.css'
 
-import '@/assets/css/mango.scss' // ruoyi css
+import '@/assets/css/mango.scss' //
 //路由
 import router from './router'
 
@@ -22,7 +22,7 @@ import axios from 'axios'
 Vue.prototype.$http = axios;
 // 自定义表格工具组件
 import RightToolbar from "./layout/RightToolbar"
-import { parseTime, resetForm, addDateRange, selectDictLabel, selectDictLabels, handleTree } from "@/utils/ruoyi";
+import { parseTime, resetForm, addDateRange, selectDictLabel, selectDictLabels, handleTree } from "@/utils/mango";
 // ElementUI
 import ElementUI, {Message} from 'element-ui';
 import 'element-ui/lib/theme-chalk/index.css';

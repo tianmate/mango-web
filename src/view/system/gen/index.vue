@@ -319,18 +319,6 @@ export default {
 
       });
 
-      // const tableNames = row.tableName || this.tableNames;
-      // if (tableNames == "") {
-      //   this.$modal.msgError("请选择要生成的数据");
-      //   return;
-      // }
-      // if(row.genType === "1") {
-      //   genCode(row.tableName).then(response => {
-      //     this.$modal.msgSuccess("成功生成到自定义路径：" + row.genPath);
-      //   });
-      // } else {
-      //   this.$download.zip("/tool/gen/batchGenCode?tables=" + tableNames, "ruoyi");
-      // }
     },
     /** 从物理表同步 */
     handleSynchDbFrom(row) {
@@ -338,6 +326,7 @@ export default {
       this.$modal.confirm('将会从物理表强制同步到"' + tableName + '"表结构吗？').then(function() {
         return synchDbFrom(tableName);
       }).then(() => {
+        this.getList()
         this.$modal.msgSuccess("同步成功");
       }).catch(() => {});
     },
@@ -348,6 +337,7 @@ export default {
         return synchDbTo(tableName);
       }).then(() => {
         this.$modal.msgSuccess("同步成功");
+        this.getList()
       }).catch(() => {});
     },
     /** 打开导入表弹窗 */
