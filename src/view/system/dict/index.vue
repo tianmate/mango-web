@@ -81,15 +81,15 @@
           @click="handleDelete"
         >删除</el-button>
       </el-col>
-      <el-col :span="1.5">
-        <el-button
-          type="warning"
-          plain
-          icon="el-icon-download"
-          size="mini"
-          @click="handleExport"
-        >导出</el-button>
-      </el-col>
+<!--      <el-col :span="1.5">-->
+<!--        <el-button-->
+<!--          type="warning"-->
+<!--          plain-->
+<!--          icon="el-icon-download"-->
+<!--          size="mini"-->
+<!--          @click="handleExport"-->
+<!--        >导出</el-button>-->
+<!--      </el-col>-->
       <el-col :span="1.5">
         <el-button
           type="danger"
@@ -287,7 +287,7 @@ export default {
       this.reset();
       const dictId = row.dictId || this.ids
       getType(dictId).then(response => {
-        this.form = response.datas;
+        this.form = response.datas[0];
         this.open = true;
         this.title = "修改字典类型";
       });

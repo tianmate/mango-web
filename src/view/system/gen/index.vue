@@ -83,8 +83,6 @@
 
     </el-row>
 
-
-
     <el-table v-loading="loading" :data="tableList" @selection-change="handleSelectionChange">
       <el-table-column type="selection" align="center" width="55"></el-table-column>
       <el-table-column label="序号" type="index" width="50" align="center">
@@ -171,13 +169,13 @@
             @click="createCode(scope.row)"
 
           >生成代码</el-button>
-          <el-button
-              type="text"
-              size="small"
-              icon="el-icon-download"
-              @click="createDbAndCode(scope.row)"
+<!--          <el-button-->
+<!--              type="text"-->
+<!--              size="small"-->
+<!--              icon="el-icon-download"-->
+<!--              @click="createDbAndCode(scope.row)"-->
 
-          >生成数据库和代码</el-button>
+<!--          >生成数据库和代码</el-button>-->
 
         </template>
       </el-table-column>
@@ -323,7 +321,7 @@ export default {
     /** 从物理表同步 */
     handleSynchDbFrom(row) {
       const tableName = row.tableName;
-      this.$modal.confirm('将会从物理表强制同步到"' + tableName + '"表结构吗？').then(function() {
+      this.$modal.confirm('将会从物理表强制同步到"' + tableName + '"存储信息中').then(function() {
         return synchDbFrom(tableName);
       }).then(() => {
         this.getList()
@@ -333,7 +331,7 @@ export default {
     /** 同步到物理表 */
     handleSynchDbTo(row){
       const tableName = row.tableName;
-      this.$modal.confirm('将会从物理表强制同步到"' + tableName + '"表结构吗？').then(function() {
+      this.$modal.confirm(tableName+'表存储信息将同步到物理表').then(function() {
         return synchDbTo(tableName);
       }).then(() => {
         this.$modal.msgSuccess("同步成功");
@@ -407,9 +405,22 @@ export default {
     },
     //生成代码
     createCode(row){
-      createCode(row.tableId).then(response => {
-        this.$modal.msgSuccess("生成成功");
-      });
+      console.log(row)
+      if (row.ifSyn===1){
+        createCode(row.tableId).then(response => {
+          this.$modal.msgSuccess("生成成功");
+        });
+      }else {
+
+        this.$modal.confirm('选中表和当前物理表结构不一致是否强制执行').then(function() {
+          return createCode(row.tableId);
+        }).then(() => {
+          // this.getList()
+          this.$modal.msgSuccess("生成成功");
+        }).catch(() => {});
+
+      }
+
     }
   },
 

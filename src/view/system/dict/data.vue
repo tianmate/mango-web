@@ -65,15 +65,15 @@
           @click="handleDelete"
         >删除</el-button>
       </el-col>
-      <el-col :span="1.5">
-        <el-button
-          type="warning"
-          plain
-          icon="el-icon-download"
-          size="mini"
-          @click="handleExport"
-        >导出</el-button>
-      </el-col>
+<!--      <el-col :span="1.5">-->
+<!--        <el-button-->
+<!--          type="warning"-->
+<!--          plain-->
+<!--          icon="el-icon-download"-->
+<!--          size="mini"-->
+<!--          @click="handleExport"-->
+<!--        >导出</el-button>-->
+<!--      </el-col>-->
       <el-col :span="1.5">
         <el-button
           type="warning"
@@ -268,26 +268,29 @@ export default {
   created() {
     const dictId = this.$route.params && this.$route.params.dictId;
     this.getType(dictId);
-    this.getTypeList();
+    this.getTypeList(dictId);
   },
   methods: {
     /** 查询字典类型详细 */
     getType(dictId) {
       getType(dictId).then(response => {
-        this.queryParams.dictType = response.datas.dictType;
-        this.defaultDictType = response.datas.dictType;
+        this.queryParams.dictType = response.datas[0].dictType;
+        this.defaultDictType = response.datas[0].dictType;
+        console.log(this.queryParams)
+        console.log(response.datas)
         this.getList();
       });
     },
     /** 查询字典类型列表 */
-    getTypeList() {
-      listType().then(response => {
+    getTypeList(dictId) {
+      listType(dictId).then(response => {
         this.typeOptions = response.rows;
       });
     },
     /** 查询字典数据列表 */
     getList() {
       this.loading = true;
+      console.log(this.queryParams)
       listData(this.queryParams).then(response => {
         this.dataList = response.datas;
         this.total = response.total;
@@ -320,7 +323,7 @@ export default {
     },
     /** 返回按钮操作 */
     handleClose() {
-      const obj = { path: "/system/dict" };
+      const obj = { path: "/pages/dict" };
       this.$tab.closeOpenPage(obj);
     },
     /** 重置按钮操作 */

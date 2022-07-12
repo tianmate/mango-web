@@ -39,7 +39,7 @@ export function updateType(data) {
 export function delType(dictId) {
   return request({
     url: '/system/dict/type/' + dictId,
-    method: 'delete'
+    method: 'get'
   })
 }
 
@@ -47,7 +47,7 @@ export function delType(dictId) {
 export function refreshCache() {
   return request({
     url: '/system/dict/type/refreshCache',
-    method: 'delete'
+    method: 'get'
   })
 }
 

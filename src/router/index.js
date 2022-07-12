@@ -53,7 +53,7 @@ export const constantRoutes = [
             {
                 path: 'index/:dictId(\\d+)',
                 component: () => import('../view/system/dict/data'),
-                name: 'Data',
+                name: '字典数据',
                 meta: { title: '字典数据', activeMenu: '/system/dict' }
             }
         ]
