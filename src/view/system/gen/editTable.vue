@@ -251,7 +251,6 @@ export default {
     if (tableId) {
       // 获取表详细信息
       getGenTable(tableId).then(res => {
-        console.log(res.datas.rows)
         this.columns = res.datas.rows;
         this.info = res.datas.info;
         this.tables = res.datas.tables;

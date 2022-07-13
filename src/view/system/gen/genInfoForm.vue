@@ -64,7 +64,7 @@
         <el-form-item>
           <span slot="label">
             上级菜单
-            <el-tooltip content="分配到指定菜单下，例如 系统管理" placement="top">
+            <el-tooltip content="分配到指定菜单下，如不选择，则不生成菜单" placement="top">
               <i class="el-icon-question"></i>
             </el-tooltip>
           </span>
@@ -229,10 +229,10 @@ export default {
       type: Array,
       default: null
     },
-    // menus: {
-    //   type: Array,
-    //   default: []
-    // },
+    menus: {
+      type: Array,
+      default: null
+    },
   },
   data() {
     return {
