@@ -33,16 +33,29 @@ export const constantRoutes = [
                // hidden: true,
                 component: () => import('../view/system/gen/editTable'),
                 name: '编辑代码生成',
-                meta: { title: '修改生成配置', activeMenu: '/tool/gen' }
+                meta: { title: '修改生成配置', activeMenu: '/system/tool/gen' }
 
             },
             {
                 path: '/tool/addTable',
                 component: () => import('../view/system/gen/addTable'),
                 name: '新增代码生成',
-                meta: { title: '修改生成配置', activeMenu: '/tool/gen' }
+                meta: { title: '修改生成配置', activeMenu: '/system/tool/gen' }
 
             },
+        ]
+    },
+    {
+        path: '/monitor/job-log',
+        component: Layout,
+        hidden: true,
+        children: [
+            {
+                path: 'index',
+                component: () => import('../view/system/quartz/log'),
+                name: '定时任务日志',
+                meta: { title: '定时任务日志', activeMenu: '/system/quartz/job' }
+            }
         ]
     },
     {

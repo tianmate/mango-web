@@ -274,10 +274,8 @@ export default {
     /** 查询字典类型详细 */
     getType(dictId) {
       getType(dictId).then(response => {
-        this.queryParams.dictType = response.datas[0].dictType;
-        this.defaultDictType = response.datas[0].dictType;
-        console.log(this.queryParams)
-        console.log(response.datas)
+        this.queryParams.dictType = response.datas.dictType;
+        this.defaultDictType = response.datas.dictType;
         this.getList();
       });
     },
