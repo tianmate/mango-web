@@ -287,7 +287,7 @@ export default {
       this.reset();
       const dictId = row.dictId || this.ids
       getType(dictId).then(response => {
-        this.form = response.datas[0];
+        this.form = response.datas;
         this.open = true;
         this.title = "修改字典类型";
       });

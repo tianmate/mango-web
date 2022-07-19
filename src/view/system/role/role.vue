@@ -34,8 +34,8 @@
             v-model="scoped.row.enable"
             active-color="#13ce66"
             inactive-color="#ff4949"
-            :active-value="0"
-            :inactive-value="1"
+            :active-value="1"
+            :inactive-value="0"
             @change="changeInformationStatus($event, scoped.row, scoped.column)">
         </el-switch>
       </template>
@@ -55,8 +55,8 @@
             v-model="scoped.row.del"
             active-color="#13ce66"
             inactive-color="#ff4949"
-            :active-value="0"
-            :inactive-value="1"
+            :active-value="1"
+            :inactive-value="0"
             @change="changeInformationStatus($event, scoped.row, scoped.column)">
         </el-switch>
       </template>

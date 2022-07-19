@@ -75,8 +75,8 @@
               v-model="scoped.row.status"
               active-color="#13ce66"
               inactive-color="#ff4949"
-              :active-value="0"
-              :inactive-value="1"
+              :active-value="1"
+              :inactive-value="0"
               @change="changeInformationStatus($event, scoped.row.menuId, scoped.column)">
           </el-switch>
         </template>
@@ -90,8 +90,8 @@
               v-model="scoped.row.visible"
               active-color="#13ce66"
               inactive-color="#ff4949"
-              :active-value="0"
-              :inactive-value="1"
+              :active-value="1"
+              :inactive-value="0"
               @change="changeInformationStatus($event, scoped.row.menuId, scoped.column)">
           </el-switch>
         </template>
@@ -190,8 +190,8 @@
                 是否外链
               </span>
               <el-radio-group v-model="form.isFrame">
-                <el-radio label="0">是</el-radio>
-                <el-radio label="1">否</el-radio>
+                <el-radio label="1">是</el-radio>
+                <el-radio label="0">否</el-radio>
               </el-radio-group>
             </el-form-item>
           </el-col>
@@ -248,8 +248,8 @@
                 是否缓存
               </span>
               <el-radio-group v-model="form.isCache">
-                <el-radio label="0">缓存</el-radio>
-                <el-radio label="1">不缓存</el-radio>
+                <el-radio label="1">缓存</el-radio>
+                <el-radio label="0">不缓存</el-radio>
               </el-radio-group>
             </el-form-item>
           </el-col>
